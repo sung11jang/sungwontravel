@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-// 준비물 체크리스트 (개인 로컬 저장)
+// 개인 스마트폰 로컬 저장 준비물
 const defaultChecklists = [
   { id: 'c1', text: '여권 실물 (만료일 6개월 이상 확인)', category: '서류/금융', checked: true },
   { id: 'c2', text: '그랩(Grab) 앱 설치 & 한국 카드 사전 등록', category: '서류/금융', checked: true },
@@ -29,7 +29,7 @@ const tripDays = [
 ];
 
 const initialSchedules = [
-  // Day 1: 북부 & 중부
+  // Day 1
   { id: 's1', day: 'day1', time: '02:30', title: '인천공항 T1 도착 및 장기주차장 주차', type: 'CAR', location: '인천공항 제1여객터미널 장기주차장', memo: 'P1/P2 주차타워 추천 (심야 셔틀 미운행/도보 10분)' },
   { id: 's2', day: 'day1', time: '05:00', title: '비엣젯 VJ977 탑승 (인천 T1 ➔ 푸꾸옥)', type: 'FLIGHT', location: '인천국제공항 제1여객터미널', memo: '05:00 출발 (위탁 수하물 20kg 포함)' },
   { id: 's3', day: 'day1', time: '08:50', title: '푸꾸옥 공항 도착 ➔ [예약완료] 시쉘 무료 픽업 미팅', type: 'CAR', location: 'Phu Quoc International Airport', memo: '국제선 출구 Seashells 피켓 기사 미팅 (+84 786 920 789)' },
@@ -39,22 +39,22 @@ const initialSchedules = [
   { id: 's7', day: 'day1', time: '18:30', title: '저녁식사: 중부 베트남 가정식 맛집 [메오키친]', type: 'RESTAURANT', location: 'Meo Kitchen Phu Quoc', memo: '쌀국수, 반쎄오, 분짜 추천' },
   { id: 's8', day: 'day1', time: '20:00', title: '즈엉동 야시장 산책 & 킹콩마트 쇼핑', type: 'PLACE', location: 'Phu Quoc Night Market', memo: '도보 이동 가능 (망고 & 슈슈 땅콩)' },
 
-  // Day 2: 북부 투어 & 시쉘 2박
+  // Day 2
   { id: 's9', day: 'day2', time: '09:30', title: '북부 그랜드월드 / 빈원더스 / 아쿠아리움', type: 'PLACE', location: 'Grand World Phu Quoc', memo: '베니스 수상도시 & 초대형 아쿠아리움' },
   { id: 's10', day: 'day2', time: '14:00', title: '시쉘 호텔 수영장 휴식 & 리조트 힐링', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '인피니티 풀 바다 전망 휴식' },
   { id: 's11', day: 'day2', time: '18:00', title: '저녁식사: 중부 시푸드 강추 맛집 [빈산]', type: 'RESTAURANT', location: 'Binh San Seafood Phu Quoc', memo: '랍스터, 맛조개, 치즈새우 바비큐' },
 
-  // Day 3: 남부 라페스타 힐튼 이동
+  // Day 3
   { id: 's12', day: 'day3', time: '11:00', title: '시쉘 체크아웃 ➔ 남부 라페스타 힐튼 이동', type: 'CAR', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '그랩 7인승 호출 또는 호텔 차량 (약 35분 소요)' },
   { id: 's13', day: 'day3', time: '14:30', title: '남부 사오비치(Sao Beach) 에메랄드 해변 휴양', type: 'PLACE', location: 'Sao Beach Phu Quoc', memo: '새하얀 모래사장 & 코코넛 스무디' },
   { id: 's14', day: 'day3', time: '18:30', title: '저녁식사: 남부 맛집 [하이봇 Hibot] 스테이크', type: 'RESTAURANT', location: 'Hibot Restaurant Sunset Town', memo: '⚠️ 3개 하이봇 중 반드시 스테이크 판매 지점으로 방문!' },
 
-  // Day 4: 남부 핵심 볼거리 집중 데이
+  // Day 4
   { id: 's15', day: 'day4', time: '09:30', title: '남부 혼똔섬 해상 케이블카 & 아쿠아토피아 워터파크', type: 'PLACE', location: 'Hon Thom Cable Car Station', memo: '세계 최장 해상 케이블카' },
   { id: 's16', day: 'day4', time: '17:00', title: '선셋타운 산책 & 키스 브릿지(Kiss Bridge) 노을', type: 'PLACE', location: 'Kiss Bridge Phu Quoc', memo: '남부 일몰 명소 포토존' },
   { id: 's17', day: 'day4', time: '19:30', title: '키스 오브 더 씨(Kiss of the Sea) 불꽃쇼 & 심포니 물쇼', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '남부 필수 야간 멀티미디어 불꽃 분수쇼' },
 
-  // Day 5: 체크아웃 & 출국
+  // Day 5
   { id: 's18', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 프런트 무료 짐보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 짐 무료 보관 가능' },
   { id: 's19', day: 'day5', time: '14:00', title: '선셋타운 감성 카페 & 기념품 쇼핑', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '마지막 남부 힐링 & 카페 타임' },
   { id: 's20', day: 'day5', time: '18:00', title: '공항 샌딩 (힐튼 유료 밴 [사전예약필요] 또는 그랩 7인승)', type: 'CAR', location: 'Phu Quoc International Airport', memo: '호텔 16인승 밴(136만동)은 사전예약 필수 / 또는 그랩 7인승 호출' },
@@ -127,11 +127,11 @@ export default function App() {
   const [docs, setDocs] = useState(initialDocs);
   const [expenses, setExpenses] = useState([
     { id: 'e1', title: '비엣젯 항공권 (5인 왕복 총액)', vnd: 59070000, krw: 2953500 },
-    { id: 'e2', title: '인천공항 5일 장기주차비 (예상)', vnd: 900000, krw: 45000 },
+    { id: 'e2', title: '인천공항 5일 장기주차비 (준중형 SUV)', vnd: 900000, krw: 45000 },
   ]);
 
   const [checklists, setChecklists] = useState(() => {
-    const saved = localStorage.getItem('my_personal_checklists_v10');
+    const saved = localStorage.getItem('my_personal_checklists_v11');
     return saved ? JSON.parse(saved) : defaultChecklists;
   });
 
@@ -140,6 +140,8 @@ export default function App() {
   const [localTime, setLocalTime] = useState('');
   const [koreaTime, setKoreaTime] = useState('');
 
+  // 정밀 환율 (1 VND = 약 0.053 KRW)
+  const [exchangeRate, setExchangeRate] = useState(0.053);
   const [vndInput, setVndInput] = useState('100000');
   const [naturalInput, setNaturalInput] = useState('');
   const [myCarLocation, setMyCarLocation] = useState('장기 P2 주차타워 2층 B구역');
@@ -158,7 +160,7 @@ export default function App() {
   const [expVnd, setExpVnd] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('my_personal_checklists_v10', JSON.stringify(checklists));
+    localStorage.setItem('my_personal_checklists_v11', JSON.stringify(checklists));
   }, [checklists]);
 
   useEffect(() => {
@@ -182,7 +184,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    const loadWeather = async () => {
+    const loadWeatherAndRate = async () => {
       try {
         const resKR = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.46&longitude=126.44&current=temperature_2m,weather_code');
         const dataKR = await resKR.json();
@@ -191,24 +193,6 @@ export default function App() {
         }
       } catch (e) {}
 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          async (pos) => {
-            try {
-              const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current=temperature_2m,weather_code`);
-              const data = await res.json();
-              if (data?.current) {
-                setCurrentWeather({ location: '내 위치(GPS)', temp: `${Math.round(data.current.temperature_2m)}°C`, desc: getWeatherDesc(data.current.weather_code) });
-              }
-            } catch (e) { loadPQ(); }
-          },
-          () => { loadPQ(); },
-          { timeout: 5000 }
-        );
-      } else { loadPQ(); }
-    };
-
-    const loadPQ = async () => {
       try {
         const resPQ = await fetch('https://api.open-meteo.com/v1/forecast?latitude=10.22&longitude=103.96&current=temperature_2m,weather_code');
         const dataPQ = await resPQ.json();
@@ -216,9 +200,20 @@ export default function App() {
           setCurrentWeather({ location: '푸꾸옥', temp: `${Math.round(dataPQ.current.temperature_2m)}°C`, desc: getWeatherDesc(dataPQ.current.weather_code) });
         }
       } catch (e) {}
+
+      // 정밀 환율 API 연동
+      try {
+        const rateRes = await fetch('https://open.er-api.com/v6/latest/VND');
+        const rateData = await rateRes.json();
+        if (rateData?.rates?.KRW) {
+          setExchangeRate(rateData.rates.KRW);
+        }
+      } catch (e) {
+        setExchangeRate(0.053);
+      }
     };
 
-    loadWeather();
+    loadWeatherAndRate();
   }, []);
 
   const handleSmartAddSchedule = (e) => {
@@ -359,7 +354,7 @@ export default function App() {
       id: String(Date.now()),
       title: expTitle,
       vnd: amount,
-      krw: Math.round(amount / 20),
+      krw: Math.round(amount * exchangeRate),
     };
     setExpenses((prev) => [...prev, newExp]);
     setExpTitle('');
@@ -389,7 +384,7 @@ export default function App() {
             푸꾸옥 4박 5일 가족 여행 🌴
           </span>
           <span style={{ fontSize: '11px', color: '#4ADE80', fontWeight: 'bold' }}>
-            ● 위성/GPS 연동
+            ● 실시간 연동
           </span>
         </div>
 
@@ -405,7 +400,7 @@ export default function App() {
           </div>
         </div>
 
-        {/* 실시간 날씨 */}
+        {/* 날씨 바 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginTop: '8px', backgroundColor: '#1E293B', padding: '8px 12px', borderRadius: '10px', fontSize: '11px' }}>
           <div>
             <span style={{ color: '#94A3B8' }}>📍 {currentWeather.location}: </span>
@@ -417,10 +412,15 @@ export default function App() {
           </div>
         </div>
 
-        {/* 크로스체크 및 환율 주의 배너 */}
-        <div style={{ marginTop: '10px', backgroundColor: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)', padding: '8px 12px', borderRadius: '8px', fontSize: '11px', color: '#FECACA', lineHeight: '1.5' }}>
-          🚨 <b>데이터 크로스체크(Cross-check) 안내:</b> 항공편 시간/호텔 셔틀/예약 규정은 현지 및 항공사 사정으로 변동될 수 있으니 출발 전 반드시 원본 바우처와 재확인하세요.<br />
-          💡 <b>환율 공식 (대략적):</b> VND ÷ 20 = 원화 (간이 계산용이며 실제 카드/환전 시 차이 발생 가능)
+        {/* 환율 공식 & 예시 바 */}
+        <div style={{ marginTop: '8px', backgroundColor: 'rgba(56,189,248,0.12)', border: '1px solid rgba(56,189,248,0.3)', padding: '7px 10px', borderRadius: '8px', fontSize: '11px', color: '#E0F2FE', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span>💡 <b>간이 공식:</b> VND ÷ 20 ≈ 원화</span>
+          <span style={{ color: '#38BDF8', fontWeight: 'bold' }}>예: 10만 동 ≈ 5,000원</span>
+        </div>
+
+        {/* 간결한 크로스체크 주의사항 */}
+        <div style={{ marginTop: '6px', backgroundColor: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', padding: '6px 10px', borderRadius: '8px', fontSize: '11px', color: '#FECACA', textAlign: 'center' }}>
+          ⚠️ <b>크로스체크 필수:</b> 항공·호텔·셔틀 정보는 변동될 수 있으니 원본 바우처와 재확인하세요.
         </div>
       </header>
 
@@ -428,7 +428,7 @@ export default function App() {
       <nav style={{ display: 'flex', backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0', position: 'sticky', top: 0, zIndex: 10 }}>
         {[
           { id: 'schedule', label: '일정', icon: '📅' },
-          { id: 'route', label: '여행지도/동선', icon: '🗺️' },
+          { id: 'route', label: '권역/동선', icon: '🗺️' },
           { id: 'parking', label: '공항주차', icon: '🚗' },
           { id: 'docs', label: '바우처/꿀팁', icon: '🎫' },
           { id: 'tools', label: '예산/준비', icon: '🎒' },
@@ -458,7 +458,7 @@ export default function App() {
         ))}
       </nav>
 
-      {/* 3. 탭별 메인 영역 */}
+      {/* 3. 메인 콘텐츠 */}
       <main style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
         
         {/* TAB 1: 일정표 */}
@@ -495,15 +495,12 @@ export default function App() {
             <form onSubmit={handleSmartAddSchedule} style={{ backgroundColor: '#FFFFFF', padding: '14px', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>✨ AI 대충 입력 스마트 정리</span>
-                <span style={{ fontSize: '10px', color: '#2563EB', backgroundColor: '#EFF6FF', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>자연어 자동분석</span>
-              </div>
-              <div style={{ fontSize: '11px', color: '#64748B', marginBottom: '8px' }}>
-                말하듯이 편하게 적으면 시간, 일차, 장소를 알아서 정리해 줍니다.
+                <span style={{ fontSize: '10px', color: '#2563EB', backgroundColor: '#EFF6FF', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>자연어 분석</span>
               </div>
               <div style={{ display: 'flex', gap: '6px' }}>
                 <input
                   type="text"
-                  placeholder="예: 저녁 7시에 즈엉동 야시장 해산물 먹기 / 13일 아침 9시 케이블카"
+                  placeholder="예: 저녁 7시 메오키친 쌀국수 / 13일 아침 9시 케이블카"
                   value={naturalInput}
                   onChange={(e) => setNaturalInput(e.target.value)}
                   style={{ flex: 1, padding: '9px 10px', border: '1px solid #CBD5E1', borderRadius: '8px', fontSize: '12px' }}
@@ -517,7 +514,7 @@ export default function App() {
               </div>
             </form>
 
-            {/* 일정 리스트 */}
+            {/* 일정 목록 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {currentDaySchedules.map((item, idx) => {
                 const badge = getTypeBadge(item.type);
@@ -554,95 +551,93 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: 여행지도 & 권역별 이동 동선 (시각 지도 & 이동 매트릭스 탑재) */}
+        {/* TAB 2: 여행 권역 및 동선도 (동선 중심 + 세부사항 확인 안내) */}
         {activeTab === 'route' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             
-            {/* 전체 지도 헤더 */}
             <div style={{ background: 'linear-gradient(135deg, #1E3A8A, #2563EB)', color: '#FFF', padding: '16px', borderRadius: '16px' }}>
-              <div style={{ fontSize: '11px', opacity: 0.85, fontWeight: 'bold' }}>PHU QUOC TRAVEL VISUAL MAP</div>
-              <div style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '4px' }}>푸꾸옥 남북 핵심 지리 & 권역별 이동도</div>
-              <div style={{ fontSize: '12px', marginTop: '6px', opacity: 0.9, lineHeight: '1.5' }}>
-                북부(사파리) ➔ 중부(공항/시쉘) ➔ 남부(라페스타 힐튼)로 이어지는 4박 5일 최적화 동선입니다.
+              <div style={{ fontSize: '11px', opacity: 0.85, fontWeight: 'bold' }}>PHU QUOC TRAVEL ROUTE MAP</div>
+              <div style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '4px' }}>푸꾸옥 북부 ➔ 중부 ➔ 남부 권역별 이동 동선도</div>
+              <div style={{ fontSize: '12px', marginTop: '6px', opacity: 0.9 }}>
+                💡 시간대별 상세 일정과 예약 바우처는 <b>[일정]</b> 및 <b>[바우처]</b> 탭에서 확인하세요.
               </div>
             </div>
 
-            {/* 시각적 푸꾸옥 지도 다이어그램 카드 */}
-            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0', boxShadow: '0 2px 4px rgba(0,0,0,0.04)' }}>
+            {/* 권역별 인터랙티브 다이어그램 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '12px', textAlign: 'center' }}>
-                🧭 푸꾸옥 남북 핵심 거점 한눈에 보기
+                🧭 푸꾸옥 핵심 권역 동선 구조도
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', position: 'relative' }}>
-                {/* 북부 */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                
+                {/* 1. 북부 */}
                 <div style={{ backgroundColor: '#ECFDF5', border: '2px solid #10B981', borderRadius: '12px', padding: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <b style={{ color: '#065F46', fontSize: '13px' }}>🌲 [북부] 테마파크 & 휴양</b>
+                    <b style={{ color: '#065F46', fontSize: '13px' }}>🌲 [북부 권역] 테마파크 & 사파리</b>
                     <span style={{ fontSize: '10px', backgroundColor: '#A7F3D0', color: '#065F46', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>차량 45~50분</span>
                   </div>
                   <div style={{ fontSize: '12px', color: '#047857', marginTop: '4px' }}>
-                    • 빈펄 사파리(기린식당), 빈원더스, 그랜드월드, 아쿠아리움
+                    • <b>동선:</b> 빈펄 사파리(기린식당) ➔ 빈원더스 ➔ 아쿠아리움 ➔ 그랜드월드
                   </div>
                 </div>
 
-                {/* 이동 화살표 */}
                 <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '12px', fontWeight: 'bold' }}>
-                  ⬇️ (그랩 택시 약 45분 / 빈버스 무료 셔틀) ⬇️
+                  ⬇️ (그랩 택시 약 45분 / 빈버스 무료셔틀) ⬇️
                 </div>
 
-                {/* 중부 */}
+                {/* 2. 중부 */}
                 <div style={{ backgroundColor: '#EFF6FF', border: '2px solid #2563EB', borderRadius: '12px', padding: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <b style={{ color: '#1E40AF', fontSize: '13px' }}>🏙️ [중부] 시내 & 숙소: 씨쉘 호텔</b>
+                    <b style={{ color: '#1E40AF', fontSize: '13px' }}>🏙️ [중부 권역] 시내 & 숙소 (씨쉘 리조트)</b>
                     <span style={{ fontSize: '10px', backgroundColor: '#BFDBFE', color: '#1E40AF', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>공항 15분</span>
                   </div>
                   <div style={{ fontSize: '12px', color: '#1D4ED8', marginTop: '4px' }}>
-                    • 푸꾸옥 공항, 즈엉동 야시장(도보권), 메오키친, 빈산 시푸드
+                    • <b>동선:</b> 푸꾸옥 공항 ➔ 씨쉘 호텔 ➔ 즈엉동 야시장(도보) ➔ 맛집(메오키친/빈산)
                   </div>
                 </div>
 
-                {/* 이동 화살표 */}
                 <div style={{ textAlign: 'center', color: '#94A3B8', fontSize: '12px', fontWeight: 'bold' }}>
-                  ⬇️ (그랩 7인승 약 35분 / 호텔 유료 밴) ⬇️
+                  ⬇️ (그랩 7인승 대형 택시 약 35분 / 호텔 유료 밴) ⬇️
                 </div>
 
-                {/* 남부 */}
+                {/* 3. 남부 */}
                 <div style={{ backgroundColor: '#FFF7ED', border: '2px solid #F97316', borderRadius: '12px', padding: '12px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <b style={{ color: '#9A3412', fontSize: '13px' }}>🌊 [남부] 볼거리 중심 & 숙소: 라페스타 힐튼</b>
+                    <b style={{ color: '#9A3412', fontSize: '13px' }}>🌊 [남부 권역] 볼거리 중심 & 숙소 (라페스타 힐튼)</b>
                     <span style={{ fontSize: '10px', backgroundColor: '#FED7AA', color: '#9A3412', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>공항 25~30분</span>
                   </div>
                   <div style={{ fontSize: '12px', color: '#C2410C', marginTop: '4px' }}>
-                    • 혼똔섬 케이블카, 키스브릿지 노을, 키스오브더씨 불꽃쇼, 사오비치, 하이봇
+                    • <b>동선:</b> 라페스타 힐튼 ➔ 사오비치 ➔ 혼똔섬 케이블카 ➔ 선셋타운(키스브릿지 노을/불꽃쇼)
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 권역 간 이동시간 및 추천 교통수단 가이드 */}
+            {/* 권역 간 이동 가이드 요약 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '10px' }}>
-                ⏱️ 주요 구간별 이동시간 & 추천 이동 방법
+              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
+                ⏱️ 권역 간 이동 시간 & 이동 수단
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px', color: '#334155', lineHeight: '1.5' }}>
                 <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: '8px', borderLeft: '3px solid #2563EB' }}>
-                  <b>1. 공항 ➔ 중부(씨쉘 푸꾸옥):</b> 약 15~20분 소요 (호텔 무료 픽업 셔틀 이용 확정)
+                  <b>• 공항 ➔ 씨쉘(중부):</b> 약 15~20분 (호텔 무료 픽업 셔틀 확정)
                 </div>
                 <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: '8px', borderLeft: '3px solid #10B981' }}>
-                  <b>2. 중부(씨쉘) ➔ 북부(사파리):</b> 약 45~50분 소요 (그랩 7인승 호출 또는 빈버스 무료셔틀)
+                  <b>• 중부 ➔ 북부(사파리):</b> 약 45~50분 (그랩 호출 또는 무료 빈버스 이용)
                 </div>
                 <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: '8px', borderLeft: '3px solid #F97316' }}>
-                  <b>3. 중부(씨쉘) ➔ 남부(라페스타 힐튼):</b> 약 35분 소요 (그랩 7인승 대형 택시 호출 추천)
+                  <b>• 중부 ➔ 남부(라페스타 힐튼):</b> 약 35분 (5인 가족 그랩 7인승 대형 택시 추천)
                 </div>
                 <div style={{ padding: '8px 10px', backgroundColor: '#F8FAFC', borderRadius: '8px', borderLeft: '3px solid #EF4444' }}>
-                  <b>4. 남부(라페스타 힐튼) ➔ 공항:</b> 약 25~30분 소요 (호텔 16인승 사전예약 밴 또는 그랩)
+                  <b>• 남부(힐튼) ➔ 공항:</b> 약 25~30분 (호텔 16인승 밴 사전예약 또는 그랩 호출)
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* TAB 3: 공항주차 & 셔틀 */}
+        {/* TAB 3: 공항주차 (준중형 SUV 기준) */}
         {activeTab === 'parking' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
@@ -687,17 +682,17 @@ export default function App() {
 
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
-                📊 인천공항 T1 장기주차장 (소형)
+                📊 인천공항 T1 장기주차장 요금 (일반 준중형 SUV)
               </div>
               <div style={{ backgroundColor: '#EFF6FF', padding: '12px', borderRadius: '10px', border: '1px solid #DBEAFE', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
                   <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1D4ED8' }}>4박 5일 총 예상 요금</div>
-                  <div style={{ fontSize: '11px', color: '#64748B' }}>1일 9,000원 × 5일</div>
+                  <div style={{ fontSize: '11px', color: '#64748B' }}>1일 9,000원 × 5일 (일반 차량 요금 적용)</div>
                 </div>
                 <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#1E293B' }}>45,000원</div>
               </div>
               <div style={{ backgroundColor: '#F1F5F9', padding: '8px 10px', borderRadius: '6px', fontSize: '11px', color: '#475569', marginTop: '8px' }}>
-                💡 경차 / 다자녀(2자녀 이상) / 저공해(친환경) 차량은 <b>50% 자동 감면</b>됩니다.
+                💡 다자녀(2자녀 이상) 또는 저공해(친환경) 차량 등록 시 <b>50% 자동 감면</b>됩니다.
               </div>
             </div>
           </div>
@@ -746,7 +741,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* 신규 등록 폼 */}
+            {/* 신규 바우처 등록창 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '6px' }}>
                 ➕ 추가 바우처 / 티켓 사진 등록
@@ -807,13 +802,15 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 5: 예산/준비 */}
+        {/* TAB 5: 예산/준비 (정밀 실시간 환율 연동) */}
         {activeTab === 'tools' && (
           <div>
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '14px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>💱 실시간 환율 계산기</span>
-                <span style={{ fontSize: '11px', color: '#DC2626', fontWeight: 'bold' }}>⚠️ 간이 계산 (실제 환율 체크)</span>
+                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>💱 정밀 실시간 환율 계산기</span>
+                <span style={{ fontSize: '10px', color: '#2563EB', backgroundColor: '#EFF6FF', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
+                  1 VND ≈ {(exchangeRate).toFixed(4)} KRW
+                </span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <input
@@ -825,16 +822,20 @@ export default function App() {
                 />
                 <span style={{ fontWeight: 'bold', fontSize: '12px' }}>VND =</span>
                 <span style={{ fontWeight: 'bold', color: '#2563EB', fontSize: '16px' }}>
-                  {Math.round((Number(vndInput) || 0) / 20).toLocaleString()} 원
+                  {Math.round((Number(vndInput) || 0) * exchangeRate).toLocaleString()} 원
                 </span>
+              </div>
+              
+              <div style={{ fontSize: '11px', color: '#64748B', marginTop: '4px' }}>
+                (간이 공식 ÷ 20 적용 시: 약 {Math.round((Number(vndInput) || 0) / 20).toLocaleString()} 원)
               </div>
 
               <div style={{ display: 'flex', gap: '6px', marginTop: '10px', overflowX: 'auto' }}>
                 {[
-                  { label: '5만동 (2.5천원)', val: '50000' },
-                  { label: '10만동 (5천원)', val: '100000' },
-                  { label: '50만동 (2.5만원)', val: '500000' },
-                  { label: '100만동 (5만원)', val: '1000000' },
+                  { label: '5만 동', val: '50000' },
+                  { label: '10만 동', val: '100000' },
+                  { label: '50만 동', val: '500000' },
+                  { label: '100만 동', val: '1000000' },
                 ].map((btn) => (
                   <button
                     key={btn.label}
