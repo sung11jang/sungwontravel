@@ -1,23 +1,65 @@
 import React, { useState, useEffect } from 'react';
 
-// 개인 스마트폰 로컬 저장 준비물
+// 해외여행 종합 준비물 체크리스트 (7개 카테고리)
 const defaultChecklists = [
-  { id: 'c1', text: '여권 실물 (만료일 6개월 이상 확인)', category: '서류/금융', checked: true },
-  { id: 'c2', text: '그랩(Grab) 앱 설치 & 한국 카드 사전 등록', category: '서류/금융', checked: true },
-  { id: 'c3', text: '트래블로그/트래블월렛 카드 (비번 확인)', category: '서류/금융', checked: false },
-  { id: 'c4', text: '비상금 달러(신권 100달러 권장)/원화', category: '서류/금융', checked: false },
-  { id: 'c5', text: '해외여행자보험 영문 증명서 캡처', category: '서류/금융', checked: false },
-  { id: 'c6', text: '왓츠앱(WhatsApp) 설치 (기사/호텔 소통용)', category: '서류/금융', checked: false },
-  { id: 'c7', text: 'OTT 오프라인 영상 & 음악 다운로드', category: 'OTT/엔터', checked: false },
-  { id: 'c8', text: '유선 이어폰 및 젠더 (배터리 방전 대비)', category: 'OTT/엔터', checked: false },
-  { id: 'c9', text: '보조배터리 (기내 수하물 휴대 필수)', category: '전자기기', checked: false },
-  { id: 'c10', text: 'eSIM QR코드 / 유심 핀', category: '전자기기', checked: false },
-  { id: 'c11', text: '멀티 어댑터 (돼지코) & 초고속 충전기', category: '전자기기', checked: false },
-  { id: 'c12', text: '방수팩 & 아쿠아슈즈 & 수영복', category: '물놀이/휴양', checked: false },
-  { id: 'c13', text: '샤워기 필터 & 비타민 리필', category: '물놀이/휴양', checked: false },
-  { id: 'c14', text: '알로에 수딩젤 (햇빛 진정용)', category: '물놀이/휴양', checked: false },
-  { id: 'c15', text: '상비약 (지사제, 소화제, 타이레놀, 모기약)', category: '상비약', checked: false },
-  { id: 'c16', text: '얇은 바람막이/가디건 (기내/실내 에어컨 대비)', category: '편의용품', checked: false },
+  // 1. 서류 / 바우처
+  { id: 'c1', text: '여권 실물 (만료일 6개월 이상 확인)', category: '서류/바우처', checked: true },
+  { id: 'c2', text: '여권 사본 및 여권용 증명사진 2매 (분실 대비)', category: '서류/바우처', checked: false },
+  { id: 'c3', text: '그랩(Grab) 앱 설치 & 한국 카드 사전 등록', category: '서류/바우처', checked: true },
+  { id: 'c4', text: '트래블로그 / 트래블월렛 카드 (출금 비번 확인)', category: '서류/바우처', checked: false },
+  { id: 'c5', text: '비상금 달러(신권 100달러 권장) & 원화', category: '서류/바우처', checked: false },
+  { id: 'c6', text: '해외여행자보험 영문 증명서 캡처본', category: '서류/바우처', checked: false },
+  { id: 'c7', text: 'eSIM 등록 QR코드 / 유심 핀', category: '서류/바우처', checked: false },
+  { id: 'c8', text: '왓츠앱(WhatsApp) 설치 (시쉘 기사 소통용)', category: '서류/바우처', checked: false },
+
+  // 2. 전자기기
+  { id: 'c9', text: '보조배터리 (반드시 기내 수하물 휴대)', category: '전자기기', checked: false },
+  { id: 'c10', text: '스마트폰 & 스마트워치 충전 케이블', category: '전자기기', checked: false },
+  { id: 'c11', text: '멀티 어댑터 (돼지코) & 초고속 멀티 충전기', category: '전자기기', checked: false },
+  { id: 'c12', text: '에어팟 / 무선 이어폰 & 유선 이어폰(방전 대비)', category: '전자기기', checked: false },
+  { id: 'c13', text: '셀카봉 및 삼각대', category: '전자기기', checked: false },
+
+  // 3. 샤워 / 화장 / 미용
+  { id: 'c14', text: '자외선 차단제 (선크림 SPF50+)', category: '샤워/화장', checked: false },
+  { id: 'c15', text: '스킨, 로션, 수분크림 (기초 화장품)', category: '샤워/화장', checked: false },
+  { id: 'c16', text: '알로에 수딩젤 (햇빛 화상 진정용)', category: '샤워/화장', checked: false },
+  { id: 'c17', text: '클렌징폼 & 클렌징 오일/티슈', category: '샤워/화장', checked: false },
+  { id: 'c18', text: '샴푸, 린스, 바디워시 (여행용 소용량)', category: '샤워/화장', checked: false },
+  { id: 'c19', text: '칫솔 & 치약 (호텔 일회용보다 개인지참 권장)', category: '샤워/화장', checked: false },
+  { id: 'c20', text: '면도기 & 빗 & 화장솜/면봉', category: '샤워/화장', checked: false },
+  { id: 'c21', text: '렌즈 세척액 & 렌즈통 / 인공눈물', category: '샤워/화장', checked: false },
+
+  // 4. 의류 / 잡화
+  { id: 'c22', text: '일자별 옷 (여름 반팔, 반바지, 원피스)', category: '의류/잡화', checked: false },
+  { id: 'c23', text: '속옷 & 양말 (일정 + 1~2벌 여유분)', category: '의류/잡화', checked: false },
+  { id: 'c24', text: '잠옷 (편한 실내복)', category: '의류/잡화', checked: false },
+  { id: 'c25', text: '얇은 바람막이 / 가디건 (기내 & 실내 에어컨 대비)', category: '의류/잡화', checked: false },
+  { id: 'c26', text: '선글라스 & 자외선 차단 모자 (볼캡/버킷햇)', category: '의류/잡화', checked: false },
+  { id: 'c27', text: '외출용 크로스백 / 에코백', category: '의류/잡화', checked: false },
+
+  // 5. 상비약
+  { id: 'c28', text: '지사제 & 소화제 (물갈이 및 장염 대비 필수)', category: '상비약', checked: false },
+  { id: 'c29', text: '진통해열제 (타이레놀 / 이지엔6)', category: '상비약', checked: false },
+  { id: 'c30', text: '종합 감기약 & 목감기약', category: '상비약', checked: false },
+  { id: 'c31', text: '모기 기피제 & 버물리 (물린 뒤 바르는 약)', category: '상비약', checked: false },
+  { id: 'c32', text: '방수 밴드 & 후시딘 연고', category: '상비약', checked: false },
+  { id: 'c33', text: '비타민C & 유산균 & 개인 복용약', category: '상비약', checked: false },
+
+  // 6. 비행기 기내용
+  { id: 'c34', text: '목베개 & 안대 & 귀마개', category: '기내휴대', checked: false },
+  { id: 'c35', text: 'OTT 영상(넷플릭스/유튜브) & 음악 오프라인 다운로드', category: '기내휴대', checked: false },
+  { id: 'c36', text: '기내용 겉옷 / 수면양말', category: '기내휴대', checked: false },
+  { id: 'c37', text: '볼펜 1자루 (세관신고서 작성용)', category: '기내휴대', checked: false },
+  { id: 'c38', text: '소독티슈 & 물티슈 & 립밤/미스트', category: '기내휴대', checked: false },
+
+  // 7. 기타 / 물놀이
+  { id: 'c39', text: '샤워기 필터 & 비타민 리필 (푸꾸옥 수질 민감 대비)', category: '기타/물놀이', checked: false },
+  { id: 'c40', text: '스마트폰 방수팩 (물 속 터치 작동 확인)', category: '기타/물놀이', checked: false },
+  { id: 'c41', text: '수영복 / 래시가드 & 아쿠아슈즈', category: '기타/물놀이', checked: false },
+  { id: 'c42', text: '물안경 / 스노클링 장비 & 튜브', category: '기타/물놀이', checked: false },
+  { id: 'c43', text: '젖은 빨래용 지퍼백 여유분 & 비닐봉지', category: '기타/물놀이', checked: false },
+  { id: 'c44', text: '손톱깎이 & 접이식 우산 (양산 겸용)', category: '기타/물놀이', checked: false },
+  { id: 'c45', text: '비상용 컵라면 & 볶음김치/간식', category: '기타/물놀이', checked: false },
 ];
 
 const tripDays = [
@@ -31,11 +73,11 @@ const tripDays = [
 const initialSchedules = [
   // Day 1
   { id: 's1', day: 'day1', time: '02:30', title: '인천공항 T1 도착 및 장기주차장 주차', type: 'CAR', location: '인천공항 제1여객터미널 장기주차장', memo: 'P1/P2 주차타워 추천 (심야 셔틀 미운행/도보 10분)' },
-  { id: 's2', day: 'day1', time: '05:00', title: '비엣젯 VJ977 탑승 (인천 T1 ➔ 푸꾸옥)', type: 'FLIGHT', location: '인천국제공항 제1여객터미널', memo: '05:00 출발 (위탁 수하물 20kg 포함)' },
+  { id: 's2', day: 'day1', time: '05:00', title: '비엣젯 VJ977 탑승 (인천 T1 ➔ 푸꾸옥)', type: 'FLIGHT', location: '인천국제공항 제1여객터미널', memo: '05:00 출발 (위탁 수하물 20kg 포함)[cite: 2]' },
   { id: 's3', day: 'day1', time: '08:50', title: '푸꾸옥 공항 도착 ➔ [예약완료] 시쉘 무료 픽업 미팅', type: 'CAR', location: 'Phu Quoc International Airport', memo: '국제선 출구 Seashells 피켓 기사 미팅 (+84 786 920 789)' },
   { id: 's4', day: 'day1', time: '10:00', title: '모닝 마사지 & 짐보관 (또는 시쉘 호텔 짐보관)', type: 'HOTEL', location: '푸꾸옥 시내 마사지샵', memo: '마사지 후 짐 맡기고 북부 투어 출발' },
   { id: 's5', day: 'day1', time: '11:30', title: '북부 빈펄 사파리(Safari) 투어', type: 'PLACE', location: 'Vinpearl Safari Phu Quoc', memo: '사파리 버스 탑승 & 기린 레스토랑' },
-  { id: 's6', day: 'day1', time: '15:30', title: '시쉘 푸꾸옥 체크인 ➔ [현장예약필요] 귀국/체크아웃 셔틀 예약', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '⚠️ 체크인 시 프런트에 12/14 체크아웃 셔틀 사전 예약 필수' },
+  { id: 's6', day: 'day1', time: '15:30', title: '시쉘 푸꾸옥 체크인 ➔ [현장예약필요] 귀국/체크아웃 셔틀 예약', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '⚠️ 체크인 시 프런트에 12/14 체크아웃 셔틀 사전 예약 필수[cite: 3, 4]' },
   { id: 's7', day: 'day1', time: '18:30', title: '저녁식사: 중부 베트남 가정식 맛집 [메오키친]', type: 'RESTAURANT', location: 'Meo Kitchen Phu Quoc', memo: '쌀국수, 반쎄오, 분짜 추천' },
   { id: 's8', day: 'day1', time: '20:00', title: '즈엉동 야시장 산책 & 킹콩마트 쇼핑', type: 'PLACE', location: 'Phu Quoc Night Market', memo: '도보 이동 가능 (망고 & 슈슈 땅콩)' },
 
@@ -55,10 +97,10 @@ const initialSchedules = [
   { id: 's17', day: 'day4', time: '19:30', title: '키스 오브 더 씨(Kiss of the Sea) 불꽃쇼 & 심포니 물쇼', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '남부 필수 야간 멀티미디어 불꽃 분수쇼' },
 
   // Day 5
-  { id: 's18', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 프런트 무료 짐보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 짐 무료 보관 가능' },
+  { id: 's18', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 프런트 무료 짐보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 짐 무료 보관 가능[cite: 9]' },
   { id: 's19', day: 'day5', time: '14:00', title: '선셋타운 감성 카페 & 기념품 쇼핑', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '마지막 남부 힐링 & 카페 타임' },
   { id: 's20', day: 'day5', time: '18:00', title: '공항 샌딩 (힐튼 유료 밴 [사전예약필요] 또는 그랩 7인승)', type: 'CAR', location: 'Phu Quoc International Airport', memo: '호텔 16인승 밴(136만동)은 사전예약 필수 / 또는 그랩 7인승 호출' },
-  { id: 's21', day: 'day5', time: '20:45', title: '비엣젯 VJ976 푸꾸옥(PQC) 출발 ➔ 인천행', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '20:45 출발 (12/17 목 04:00 인천 T1 도착)' },
+  { id: 's21', day: 'day5', time: '20:45', title: '비엣젯 VJ976 푸꾸옥(PQC) 출발 ➔ 인천행', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '20:45 출발 (12/17 목 04:00 인천 T1 도착)[cite: 2]' },
   { id: 's22', day: 'day5', time: '04:00', title: '인천공항 T1 도착 & 장기주차장 출차', type: 'CAR', location: '인천국제공항 제1여객터미널 장기주차장', memo: '무인 정산기 결제 후 안전 귀가' },
 ];
 
@@ -73,29 +115,11 @@ const initialDocs = [
     rawEmail: ''
   },
   {
-    id: 'd_area_guide',
-    category: '여행꿀팁',
-    title: '🗺️ 푸꾸옥 북부 / 중부 / 남부 핵심 요약',
-    code: '권역별 핵심 특징 가이드',
-    memo: '🌲 [북부]: 빈펄 사파리, 빈원더스 놀이공원, 아쿠아리움, 그랜드월드\n🏙️ [중부]: 공항, 즈엉동 야시장, 시쉘 호텔(시내 도보 최강), 소나시(노보텔/인터컨)\n🌊 [남부 볼거리 최다]: 혼똔섬 케이블카, 키스브릿지, 심포니 물쇼, 불꽃놀이, 라페스타 힐튼',
-    imgUrl: '',
-    rawEmail: ''
-  },
-  {
-    id: 'd_gourmet_guide',
-    category: '여행꿀팁',
-    title: '🍽️ 푸꾸옥 3대 필수 추천 맛집',
-    code: '중부 2곳 & 남부 1곳',
-    memo: '1️⃣ 중부 시푸드: [빈산 (Binh San)] - 랍스터/새우 바비큐\n2️⃣ 중부 베트남식: [메오키친 (Meo Kitchen)] - 쌀국수/반쎄오\n3️⃣ 남부 맛집: [하이봇 (Hibot)] - ⚠️ 3개 매장 중 반드시 스테이크 판매 전문점으로 방문!',
-    imgUrl: '',
-    rawEmail: ''
-  },
-  {
     id: 'd_flight_tickets',
     category: '항공권',
     title: '✈️ 비엣젯 항공 왕복 E-티켓 (5인)',
-    code: '예약번호 1400828892050635',
-    memo: '• 출국(VJ977): 12/12(토) 05:00 ICN T1 ➔ 08:50 PQC\n• 귀국(VJ976): 12/16(수) 20:45 PQC ➔ 12/17 04:00 ICN T1\n• 수하물: 1인당 위탁 20kg + 기내 7kg',
+    code: '예약번호 1400828892050635[cite: 1, 2]',
+    memo: '• 출국(VJ977): 12/12(토) 05:00 ICN T1 ➔ 08:50 PQC[cite: 2]\n• 귀국(VJ976): 12/16(수) 20:45 PQC ➔ 12/17 04:00 ICN T1[cite: 2]\n• 수하물: 1인당 위탁 20kg + 기내 7kg[cite: 2]',
     imgUrl: '',
     rawEmail: ''
   },
@@ -103,8 +127,8 @@ const initialDocs = [
     id: 'd_seashells_room',
     category: '호텔/셔틀',
     title: '🏨 시쉘 푸꾸옥 호텔 & 스파 (12/12 ~ 12/14)',
-    code: '체크인 15:00 / 야시장&마사지 도보권',
-    memo: '• 룸1 (3인): Agoda #1764447810 (Twin Ocean View / 조식3인)\n• 룸2 (2인): Trip.com #1400828467787978 (King City View / 조식2인)\n• 픽업 기사: +84 786 920 789 / 📞 숙소: +84 297 7300 999',
+    code: '체크인 15:00 / 야시장&마사지 도보권[cite: 3, 4]',
+    memo: '• 룸1 (3인): Agoda #1764447810 (Twin Ocean View / 조식3인)[cite: 6]\n• 룸2 (2인): Trip.com #1400828467787978 (King City View / 조식2인)[cite: 3, 4]\n• 픽업 기사: +84 786 920 789 / 📞 숙소: +84 297 7300 999[cite: 6]',
     imgUrl: '',
     rawEmail: ''
   },
@@ -112,8 +136,8 @@ const initialDocs = [
     id: 'd_lafesta_info',
     category: '호텔/셔틀',
     title: '🏨 라페스타 푸꾸옥 힐튼 (12/14 ~ 12/16)',
-    code: '체크인 15:00 / 선셋타운 위치',
-    memo: '• 룸1 (3인): Agoda #1764537797 (King Capri Terrace / 조식3인)\n• 룸2 (2인): Trip.com #1400828468433911 (King Classico / 조식2인)\n• 짐 보관: 12/16 체크아웃 후 당일 리셉션 무료 보관 가능\n• 샌딩: 유료 16인승 밴 편도 136만동 (사전예약) / 📞 +84 297 3525 555',
+    code: '체크인 15:00 / 선셋타운 위치[cite: 9, 10]',
+    memo: '• 룸1 (3인): Agoda #1764537797 (King Capri Terrace / 조식3인)[cite: 7]\n• 룸2 (2인): Trip.com #1400828468433911 (King Classico / 조식2인)[cite: 9, 10]\n• 짐 보관: 12/16 체크아웃 후 당일 리셉션 무료 보관 가능[cite: 9]\n• 샌딩: 유료 16인승 밴 편도 136만동 (사전예약) / 📞 +84 297 3525 555',
     imgUrl: '',
     rawEmail: ''
   }
@@ -122,6 +146,7 @@ const initialDocs = [
 export default function App() {
   const [activeTab, setActiveTab] = useState('schedule');
   const [selectedDay, setSelectedDay] = useState('day1');
+  const [checkCategory, setCheckCategory] = useState('전체');
   
   const [items, setItems] = useState(initialSchedules);
   const [docs, setDocs] = useState(initialDocs);
@@ -131,7 +156,7 @@ export default function App() {
   ]);
 
   const [checklists, setChecklists] = useState(() => {
-    const saved = localStorage.getItem('my_personal_checklists_v11');
+    const saved = localStorage.getItem('my_personal_checklists_v14');
     return saved ? JSON.parse(saved) : defaultChecklists;
   });
 
@@ -140,7 +165,6 @@ export default function App() {
   const [localTime, setLocalTime] = useState('');
   const [koreaTime, setKoreaTime] = useState('');
 
-  // 정밀 환율 (1 VND = 약 0.053 KRW)
   const [exchangeRate, setExchangeRate] = useState(0.053);
   const [vndInput, setVndInput] = useState('100000');
   const [naturalInput, setNaturalInput] = useState('');
@@ -156,11 +180,12 @@ export default function App() {
   const [previewImg, setPreviewImg] = useState(null);
 
   const [newCheckItem, setNewCheckItem] = useState('');
+  const [newCheckCat, setNewCheckCat] = useState('기타/물놀이');
   const [expTitle, setExpTitle] = useState('');
   const [expVnd, setExpVnd] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('my_personal_checklists_v11', JSON.stringify(checklists));
+    localStorage.setItem('my_personal_checklists_v14', JSON.stringify(checklists));
   }, [checklists]);
 
   useEffect(() => {
@@ -184,7 +209,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    const loadWeatherAndRate = async () => {
+    const loadData = async () => {
       try {
         const resKR = await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.46&longitude=126.44&current=temperature_2m,weather_code');
         const dataKR = await resKR.json();
@@ -201,7 +226,6 @@ export default function App() {
         }
       } catch (e) {}
 
-      // 정밀 환율 API 연동
       try {
         const rateRes = await fetch('https://open.er-api.com/v6/latest/VND');
         const rateData = await rateRes.json();
@@ -213,7 +237,7 @@ export default function App() {
       }
     };
 
-    loadWeatherAndRate();
+    loadData();
   }, []);
 
   const handleSmartAddSchedule = (e) => {
@@ -337,7 +361,7 @@ export default function App() {
   const handleAddChecklist = (e) => {
     e.preventDefault();
     if (!newCheckItem) return;
-    setChecklists((prev) => [...prev, { id: String(Date.now()), text: newCheckItem, category: '개인준비', checked: false }]);
+    setChecklists((prev) => [...prev, { id: String(Date.now()), text: newCheckItem, category: newCheckCat, checked: false }]);
     setNewCheckItem('');
   };
 
@@ -363,6 +387,12 @@ export default function App() {
 
   const totalKRW = expenses.reduce((acc, cur) => acc + (cur.krw || 0), 0);
   const currentDaySchedules = items.filter((it) => it.day === selectedDay);
+
+  const filteredChecklists = checkCategory === '전체'
+    ? checklists
+    : checklists.filter((c) => c.category === checkCategory);
+
+  const checklistCategories = ['전체', '서류/바우처', '전자기기', '샤워/화장', '의류/잡화', '상비약', '기내휴대', '기타/물놀이'];
 
   const getTypeBadge = (type) => {
     switch (type) {
@@ -418,19 +448,19 @@ export default function App() {
           <span style={{ color: '#38BDF8', fontWeight: 'bold' }}>예: 10만 동 ≈ 5,000원</span>
         </div>
 
-        {/* 간결한 크로스체크 주의사항 */}
+        {/* 크로스체크 주의사항 */}
         <div style={{ marginTop: '6px', backgroundColor: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)', padding: '6px 10px', borderRadius: '8px', fontSize: '11px', color: '#FECACA', textAlign: 'center' }}>
           ⚠️ <b>크로스체크 필수:</b> 항공·호텔·셔틀 정보는 변동될 수 있으니 원본 바우처와 재확인하세요.
         </div>
       </header>
 
-      {/* 2. 탭 네비게이션 */}
+      {/* 2. 5개 탭 네비게이션 */}
       <nav style={{ display: 'flex', backgroundColor: '#FFFFFF', borderBottom: '1px solid #E2E8F0', position: 'sticky', top: 0, zIndex: 10 }}>
         {[
           { id: 'schedule', label: '일정', icon: '📅' },
           { id: 'route', label: '권역/동선', icon: '🗺️' },
-          { id: 'parking', label: '공항주차', icon: '🚗' },
-          { id: 'docs', label: '바우처/꿀팁', icon: '🎫' },
+          { id: 'docs', label: '바우처/주차', icon: '🎫' },
+          { id: 'tips', label: '실전꿀팁', icon: '💡' },
           { id: 'tools', label: '예산/준비', icon: '🎒' },
         ].map((tab) => (
           <button
@@ -458,7 +488,7 @@ export default function App() {
         ))}
       </nav>
 
-      {/* 3. 메인 콘텐츠 */}
+      {/* 3. 메인 콘텐츠 영역 */}
       <main style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
         
         {/* TAB 1: 일정표 */}
@@ -491,7 +521,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* AI 스마트 등록창 */}
+            {/* AI 대충 입력 스마트 정리창 */}
             <form onSubmit={handleSmartAddSchedule} style={{ backgroundColor: '#FFFFFF', padding: '14px', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '16px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>✨ AI 대충 입력 스마트 정리</span>
@@ -551,7 +581,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 2: 여행 권역 및 동선도 (동선 중심 + 세부사항 확인 안내) */}
+        {/* TAB 2: 여행 권역 및 동선도 */}
         {activeTab === 'route' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             
@@ -559,7 +589,7 @@ export default function App() {
               <div style={{ fontSize: '11px', opacity: 0.85, fontWeight: 'bold' }}>PHU QUOC TRAVEL ROUTE MAP</div>
               <div style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '4px' }}>푸꾸옥 북부 ➔ 중부 ➔ 남부 권역별 이동 동선도</div>
               <div style={{ fontSize: '12px', marginTop: '6px', opacity: 0.9 }}>
-                💡 시간대별 상세 일정과 예약 바우처는 <b>[일정]</b> 및 <b>[바우처]</b> 탭에서 확인하세요.
+                💡 시간대별 상세 일정과 예약 바우처는 <b>[일정]</b> 및 <b>[바우처/주차]</b> 탭에서 확인하세요.
               </div>
             </div>
 
@@ -637,19 +667,22 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 3: 공항주차 (준중형 SUV 기준) */}
-        {activeTab === 'parking' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
-                🚗 내 차 주차 위치 메모 (출차 시 확인)
+        {/* TAB 3: 바우처/주차 (공항 주차 메모 및 바우처 통합) */}
+        {activeTab === 'docs' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            
+            {/* 인천공항 T1 주차 메모 및 셔틀 카드 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0', boxShadow: '0 2px 4px rgba(0,0,0,0.04)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>🚗 인천공항 T1 장기주차 (준중형 SUV)</span>
+                <span style={{ fontSize: '11px', color: '#2563EB', fontWeight: 'bold' }}>5일 45,000원</span>
               </div>
               <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
                 <input
                   type="text"
                   value={myCarLocation}
                   onChange={(e) => setMyCarLocation(e.target.value)}
-                  placeholder="예: 장기 P2 타워 2층 B구역"
+                  placeholder="예: 장기 P2 주차타워 2층 B구역"
                   style={{ flex: 1, padding: '8px 10px', border: '1px solid #CBD5E1', borderRadius: '8px', fontSize: '13px' }}
                 />
                 <button
@@ -659,53 +692,20 @@ export default function App() {
                   저장
                 </button>
               </div>
-              {parkingSavedMsg && <div style={{ fontSize: '11px', color: '#059669', fontWeight: 'bold' }}>✅ 주차 위치가 안전하게 저장되었습니다.</div>}
-            </div>
-
-            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>🚌 T1 장기주차장 순환 셔틀버스 정보</span>
-                <span style={{ fontSize: '11px', color: '#2563EB', fontWeight: 'bold' }}>무료 탑승</span>
-              </div>
-              <div style={{ backgroundColor: '#F8FAFC', padding: '10px 12px', borderRadius: '10px', fontSize: '12px', lineHeight: '1.6' }}>
-                • <b>운행 시간:</b> <span style={{ color: '#2563EB', fontWeight: 'bold' }}>04:30 ~ 24:00 (자정)</span><br />
-                • <b>배차 간격:</b> 8분 ~ 16분 간격 (왕복 16분 소요)<br />
-                • <b>탑승 위치:</b> 여객터미널 1층 3C, 13C 게이트 건너편 정류장
-              </div>
+              {parkingSavedMsg && <div style={{ fontSize: '11px', color: '#059669', fontWeight: 'bold', marginBottom: '8px' }}>✅ 주차 위치가 안전하게 저장되었습니다.</div>}
               
-              <div style={{ marginTop: '10px', backgroundColor: '#FEF2F2', padding: '10px 12px', borderRadius: '8px', fontSize: '11px', color: '#991B1B', lineHeight: '1.5' }}>
-                <b>🚨 12/12 출국 시 심야 시간대(02:30 도착) 안내:</b><br />
-                • 05:00 비행기 탑승을 위해 새벽 02:30~03:00 공항 도착 시 셔틀버스가 다니지 않습니다 (04:30 첫차).<br />
-                • <b>여객터미널 도보 이동이 용이한 P1/P2 주차타워</b> 구역에 주차하시는 것을 적극 추천합니다.
+              <div style={{ backgroundColor: '#F8FAFC', padding: '10px 12px', borderRadius: '8px', fontSize: '11px', color: '#475569', lineHeight: '1.5' }}>
+                • <b>T1 무료 순환셔틀:</b> 04:30 ~ 24:00 (8~16분 간격 운행)<br />
+                • <b>🚨 심야(00:00~04:30) 셔틀 미운행:</b> 05:00 비행기(02:30 공항도착) 시 도보 이동이 용이한 P1/P2 주차타워 주차를 권장합니다.
               </div>
             </div>
 
-            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
-                📊 인천공항 T1 장기주차장 요금 (일반 준중형 SUV)
-              </div>
-              <div style={{ backgroundColor: '#EFF6FF', padding: '12px', borderRadius: '10px', border: '1px solid #DBEAFE', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div>
-                  <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1D4ED8' }}>4박 5일 총 예상 요금</div>
-                  <div style={{ fontSize: '11px', color: '#64748B' }}>1일 9,000원 × 5일 (일반 차량 요금 적용)</div>
-                </div>
-                <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#1E293B' }}>45,000원</div>
-              </div>
-              <div style={{ backgroundColor: '#F1F5F9', padding: '8px 10px', borderRadius: '6px', fontSize: '11px', color: '#475569', marginTop: '8px' }}>
-                💡 다자녀(2자녀 이상) 또는 저공해(친환경) 차량 등록 시 <b>50% 자동 감면</b>됩니다.
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* TAB 4: 바우처/꿀팁 */}
-        {activeTab === 'docs' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {/* 예약 바우처 리스트 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>📋 내 보관함 & 호텔 회신/이동 바우처</div>
+              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>📋 내 보관함 & 호텔/항공 바우처</div>
               {docs.map((docItem) => (
                 <div key={docItem.id} style={{ backgroundColor: '#FFFFFF', borderRadius: '16px', border: '1px solid #E2E8F0', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.04)' }}>
-                  <div style={{ backgroundColor: docItem.category === '항공권' ? '#1E3A8A' : docItem.category === '여행꿀팁' ? '#065F46' : '#1E293B', color: '#FFF', padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div style={{ backgroundColor: docItem.category === '항공권' ? '#1E3A8A' : '#1E293B', color: '#FFF', padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '11px', fontWeight: 'bold', backgroundColor: 'rgba(255,255,255,0.2)', padding: '2px 8px', borderRadius: '4px' }}>
                       {docItem.category}
                     </span>
@@ -755,7 +755,6 @@ export default function App() {
                   <option value="호텔/셔틀">🏨 호텔/셔틀</option>
                   <option value="항공권">✈️ 항공권</option>
                   <option value="투어/티켓">🎫 투어/티켓</option>
-                  <option value="여행꿀팁">💡 여행꿀팁</option>
                   <option value="영수증">🧾 영수증</option>
                 </select>
                 <input
@@ -789,23 +788,94 @@ export default function App() {
                 ✨ 스마트 바우처 카드로 저장
               </button>
             </div>
+          </div>
+        )}
 
-            <div style={{ backgroundColor: '#FFFBEB', padding: '16px', borderRadius: '16px', border: '1px solid #FEF3C7', color: '#92400E' }}>
-              <div style={{ fontWeight: 'bold', fontSize: '13px', marginBottom: '8px' }}>💡 푸꾸옥 여행 현지 실전 꿀팁</div>
-              <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', lineHeight: '1.6' }}>
-                <li><b>그랩(Grab) 이용:</b> 공항 호객 택시 탑승 금지, 반드시 그랩 앱으로 호출하세요.</li>
-                <li><b>수수료 무료 ATM:</b> 트래블로그 카드는 <b>VPBank, BIDV</b> ATM에서 인출 수수료가 0원입니다.</li>
-                <li><b>동(VND) 계산법:</b> 베트남 동에서 <b>÷ 20</b> 하면 대략적인 원화 (환율에 따라 크로스체크 필수).</li>
-                <li><b>하이봇 맛집 팁:</b> 선셋타운 하이봇 3곳 중 **스테이크 판매 전문점**인지 간판/메뉴판 확인 후 입장하세요.</li>
-              </ul>
+        {/* TAB 4: 실전꿀팁 (베트남 & 푸꾸옥 현지 여행 완벽 가이드) */}
+        {activeTab === 'tips' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            
+            <div style={{ background: 'linear-gradient(135deg, #065F46, #059669)', color: '#FFF', padding: '16px', borderRadius: '16px' }}>
+              <div style={{ fontSize: '11px', opacity: 0.85, fontWeight: 'bold' }}>VIETNAM & PHU QUOC LOCAL GUIDE</div>
+              <div style={{ fontSize: '16px', fontWeight: 'bold', marginTop: '4px' }}>베트남 푸꾸옥 실전 100% 꿀팁 백과</div>
+              <div style={{ fontSize: '12px', marginTop: '6px', opacity: 0.9 }}>
+                현지에서 당황하지 않고 알뜰하고 안전하게 여행하는 핵심 노하우입니다.
+              </div>
+            </div>
+
+            {/* 1. 화폐 및 환전 꿀팁 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
+                💵 화폐 & 환전 & 팁(Tip) 문화
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px', color: '#334155', lineHeight: '1.6' }}>
+                <div style={{ backgroundColor: '#FEF2F2', padding: '10px 12px', borderRadius: '8px', borderLeft: '4px solid #EF4444' }}>
+                  <b>• 훼손 지폐 수취 거부:</b> 베트남은 모서리가 1mm라도 찢어지거나 낙서된 지폐는 상점에서 받지 않습니다. 거스름돈을 받을 때 바로 확인하세요.
+                </div>
+                <div style={{ backgroundColor: '#EFF6FF', padding: '10px 12px', borderRadius: '8px', borderLeft: '4px solid #2563EB' }}>
+                  <b>• 지폐 색상 혼동 주의:</b> <b>50만 동(약 2.6만 원)</b>과 <b>2만 동(약 1천 원)</b>은 둘 다 파란색 계열이라 어두운 야시장/택시에서 착각하기 매우 쉽습니다!
+                </div>
+                <div style={{ backgroundColor: '#F8FAFC', padding: '10px 12px', borderRadius: '8px' }}>
+                  <b>• 베트남 매너 팁 기준:</b><br />
+                  - 마사지: 60분 5만 동(약 2,500원) / 90분 7~10만 동(약 3,500~5,000원)<br />
+                  - 호텔 벨보이/하우스키핑: 2만~5만 동(약 1,000~2,500원)
+                </div>
+              </div>
+            </div>
+
+            {/* 2. 교통 & 그랩(Grab) 안전 수칙 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
+                🚖 교통 & 그랩(Grab) 호객 방지
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px', color: '#334155', lineHeight: '1.6' }}>
+                <div style={{ backgroundColor: '#FFFBEB', padding: '10px 12px', borderRadius: '8px', borderLeft: '4px solid #F59E0B' }}>
+                  <b>• 호객 택시 탑승 절대 금지:</b> 공항/야시장에서 "그랩? 마이 프렌드" 하며 타라는 기사는 미터기 조작 바가지 사기 택시입니다.
+                </div>
+                <div style={{ backgroundColor: '#F8FAFC', padding: '10px 12px', borderRadius: '8px' }}>
+                  <b>• 그랩 이용 팁:</b> 한국에서 카드를 미리 등록해두면 현금 잔돈 실랑이 없이 하차 시 자동 결제되어 매우 안전합니다. 탑승 전 반드시 앱의 <b>차량 번호판</b>을 확인하세요.
+                </div>
+              </div>
+            </div>
+
+            {/* 3. 수질 & 식수 안전 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
+                🚰 식수 & 수질 안전 수칙
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px', color: '#334155', lineHeight: '1.6' }}>
+                <div>• 호텔 수돗물은 석회질과 배관 노후화로 인해 <b>음용 불가</b>입니다.</div>
+                <div>• 양치질을 할 때도 생수(무료 제공 생수)를 사용하시는 것을 권장합니다.</div>
+                <div>• 피부가 예민한 가족이 있다면 <b>샤워기 필터</b>를 챙겨가면 안심하고 씻을 수 있습니다.</div>
+              </div>
+            </div>
+
+            {/* 4. 푸꾸옥 투어 & 쇼핑 공략 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
+              <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
+                🦁 푸꾸옥 투어 & 쇼핑 명당 공략
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px', color: '#334155', lineHeight: '1.6' }}>
+                <div style={{ backgroundColor: '#ECFDF5', padding: '10px 12px', borderRadius: '8px', borderLeft: '4px solid #10B981' }}>
+                  <b>• 빈펄 사파리 버스 명당:</b> 사파리 전용 버스 탑승 시 <b>오른쪽 좌석</b>에 앉아야 사자, 호랑이, 곰 등 맹수들을 바로 눈앞에서 관람할 수 있습니다.
+                </div>
+                <div style={{ backgroundColor: '#F8FAFC', padding: '10px 12px', borderRadius: '8px' }}>
+                  <b>• 기린 레스토랑:</b> 오전 일찍 방문해야 기린들이 배부르기 전에 먹이(바나나/당근)를 적극적으로 받아먹습니다.
+                </div>
+                <div style={{ backgroundColor: '#F8FAFC', padding: '10px 12px', borderRadius: '8px' }}>
+                  <b>• 킹콩마트 쇼핑 추천:</b> 푸꾸옥 특산 <b>통후추</b>, <b>슈슈 땅콩</b>, <b>체리쉬 망고 젤리</b>, <b>코코넛 카푸치노 커피(ARCHCAFE)</b>가 가성비 선물 1순위입니다.
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {/* TAB 5: 예산/준비 (정밀 실시간 환율 연동) */}
+        {/* TAB 5: 예산/준비 (종합 7대 카테고리 체크리스트) */}
         {activeTab === 'tools' && (
-          <div>
-            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '14px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            
+            {/* 정밀 실시간 환율 계산기 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>💱 정밀 실시간 환율 계산기</span>
                 <span style={{ fontSize: '10px', color: '#2563EB', backgroundColor: '#EFF6FF', padding: '2px 6px', borderRadius: '4px', fontWeight: 'bold' }}>
@@ -848,7 +918,8 @@ export default function App() {
               </div>
             </div>
 
-            <div style={{ backgroundColor: '#FFFFFF', padding: '14px', borderRadius: '14px', border: '1px solid #E2E8F0', marginBottom: '14px' }}>
+            {/* 가계부 지출 내역 */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '14px', borderRadius: '14px', border: '1px solid #E2E8F0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>💰 여행 누적 지출</span>
                 <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#DC2626' }}>{totalKRW.toLocaleString()} 원</span>
@@ -885,20 +956,60 @@ export default function App() {
               </div>
             </div>
 
-            <div style={{ backgroundColor: '#FFFFFF', padding: '14px', borderRadius: '14px', border: '1px solid #E2E8F0' }}>
+            {/* 해외여행 종합 준비물 체크리스트 (카테고리 필터 탑재) */}
+            <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>🎒 나만의 준비물 체크 (개인 폰 저장)</span>
+                <span style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>🎒 해외여행 종합 준비물 체크</span>
                 <span style={{ fontSize: '11px', color: '#2563EB', fontWeight: 'bold' }}>
                   {checklists.filter(c => c.checked).length} / {checklists.length} 완료
                 </span>
               </div>
-              <div style={{ fontSize: '11px', color: '#64748B', marginBottom: '8px' }}>
-                🔒 본인 스마트폰에만 개별 저장되므로 자유롭게 체크하세요.
+              <div style={{ fontSize: '11px', color: '#64748B', marginBottom: '10px' }}>
+                🔒 본인 기기에만 개별 저장되므로 자유롭게 체크하세요.
               </div>
-              <form onSubmit={handleAddChecklist} style={{ display: 'flex', gap: '6px', marginBottom: '10px' }}>
+
+              {/* 카테고리 필터 탭 */}
+              <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '10px' }}>
+                {checklistCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setCheckCategory(cat)}
+                    style={{
+                      whiteSpace: 'nowrap',
+                      padding: '5px 8px',
+                      borderRadius: '6px',
+                      border: '1px solid',
+                      borderColor: checkCategory === cat ? '#2563EB' : '#E2E8F0',
+                      backgroundColor: checkCategory === cat ? '#EFF6FF' : '#FFFFFF',
+                      color: checkCategory === cat ? '#1D4ED8' : '#64748B',
+                      fontSize: '11px',
+                      fontWeight: checkCategory === cat ? 'bold' : 'normal',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* 준비물 추가 폼 */}
+              <form onSubmit={handleAddChecklist} style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
+                <select
+                  value={newCheckCat}
+                  onChange={(e) => setNewCheckCat(e.target.value)}
+                  style={{ width: '95px', padding: '7px', border: '1px solid #CBD5E1', borderRadius: '6px', fontSize: '11px', backgroundColor: '#FFF' }}
+                >
+                  <option value="서류/바우처">서류/바우처</option>
+                  <option value="전자기기">전자기기</option>
+                  <option value="샤워/화장">샤워/화장</option>
+                  <option value="의류/잡화">의류/잡화</option>
+                  <option value="상비약">상비약</option>
+                  <option value="기내휴대">기내휴대</option>
+                  <option value="기타/물놀이">기타/물놀이</option>
+                </select>
                 <input
                   type="text"
-                  placeholder="추가 준비물 입력 (예: 선글라스)"
+                  placeholder="추가 준비물 입력"
                   value={newCheckItem}
                   onChange={(e) => setNewCheckItem(e.target.value)}
                   style={{ flex: 1, padding: '7px', border: '1px solid #CBD5E1', borderRadius: '6px', fontSize: '12px' }}
@@ -907,8 +1018,10 @@ export default function App() {
                   추가
                 </button>
               </form>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '280px', overflowY: 'auto' }}>
-                {checklists.map((chk) => (
+
+              {/* 준비물 체크 목록 */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', maxHeight: '320px', overflowY: 'auto' }}>
+                {filteredChecklists.map((chk) => (
                   <div
                     key={chk.id}
                     onClick={() => handleToggleCheck(chk.id)}
@@ -916,7 +1029,7 @@ export default function App() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      padding: '7px 9px',
+                      padding: '8px 10px',
                       backgroundColor: chk.checked ? '#F8FAFC' : '#FFFFFF',
                       borderRadius: '8px',
                       border: '1px solid #F1F5F9',
@@ -925,12 +1038,12 @@ export default function App() {
                   >
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: chk.checked ? '#94A3B8' : '#1E293B', textDecoration: chk.checked ? 'line-through' : 'none' }}>
                       <span>{chk.checked ? '✅' : '⬜'}</span>
-                      <span style={{ fontSize: '10px', backgroundColor: '#F1F5F9', color: '#64748B', padding: '2px 4px', borderRadius: '4px' }}>
+                      <span style={{ fontSize: '10px', backgroundColor: '#F1F5F9', color: '#64748B', padding: '2px 5px', borderRadius: '4px' }}>
                         {chk.category}
                       </span>
                       <span>{chk.text}</span>
                     </div>
-                    <button onClick={(e) => handleDeleteChecklist(chk.id, e)} style={{ border: 'none', background: 'none', color: '#CBD5E1', cursor: 'pointer' }}>✕</button>
+                    <button onClick={(e) => handleDeleteChecklist(chk.id, e)} style={{ border: 'none', background: 'none', color: '#CBD5E1', cursor: 'pointer', padding: '2px' }}>✕</button>
                   </div>
                 ))}
               </div>
@@ -939,7 +1052,7 @@ export default function App() {
         )}
       </main>
 
-      {/* 사진 확대 모달 */}
+      {/* 바우처 사진 확대 모달 */}
       {previewImg && (
         <div
           onClick={() => setPreviewImg(null)}
