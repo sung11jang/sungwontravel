@@ -33,7 +33,7 @@ const tripDays = [
 const initialSchedules = [
   { id: 's1', day: 'day1', time: '07:30', title: '인천공항 T1 도착 및 장기주차장 주차', type: 'CAR', location: '인천공항 제1여객터미널 장기주차장', memo: '주차 기둥 사진 촬영 / 셔틀 첫차 04:30 운행' },
   { id: 's2', day: 'day1', time: '10:30', title: '비엣젯 VJ977 탑승 (인천 T1 ➔ 푸꾸옥)', type: 'FLIGHT', location: '인천국제공항 제1여객터미널 탑승동', memo: '탑승구 114번' },
-  { id: 's3', day: 'day1', time: '16:00', title: '시쉘 푸꾸옥 호텔 체크인 & 셔틀 탑승', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '예약번호 #AGD-9938' },
+  { id: 's3', day: 'day1', time: '16:00', title: '시쉘 푸꾸옥 호텔 체크인', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '예약번호 #AGD-9938' },
   { id: 's4', day: 'day1', time: '18:30', title: '즈엉동 야시장 저녁식사', type: 'RESTAURANT', location: 'Phu Quoc Night Market', memo: '해산물 바비큐 & 킹콩마트' },
   { id: 's5', day: 'day2', time: '09:30', title: '혼똔섬 케이블카 & 아쿠아토피아', type: 'PLACE', location: 'Hon Thom Cable Car Station', memo: '세계 최장 해상 케이블카' },
   { id: 's6', day: 'day3', time: '10:00', title: '사오비치 휴양 & 코코넛 스무디', type: 'PLACE', location: 'Sao Beach Phu Quoc', memo: '에메랄드빛 해변 휴식' },
@@ -43,13 +43,22 @@ const initialSchedules = [
 
 const initialDocs = [
   {
+    id: 'd_email_quote',
+    category: '호텔/셔틀',
+    title: '🏨 호텔 공항 샌딩 차량 공식 견적 회신',
+    code: '16인승 밴 (수하물 포함 최대 10인)',
+    memo: '⚠️ 무료 셔틀 미제공 호텔\n• 편도: 1,360,800 VND (약 68,000원)\n• 왕복 할인: 2,268,000 VND (약 113,400원)\n• 예약 요청 시 항공편명 회신 필수 / 직통문의: +84 297 3525 555',
+    imgUrl: '',
+    rawEmail: 'Dear Sungwon Jang, Regarding airport transfer: hotel does not provide complimentary shuttle. 16-seat vehicle: One-way VND 1,360,800 / Round-trip VND 2,268,000. Tel: +84 297 3525 555'
+  },
+  {
     id: 'd1',
     category: '호텔/셔틀',
-    title: '시쉘 푸꾸옥 호텔 & 공항 무료 픽업 셔틀',
+    title: '시쉘 푸꾸옥 호텔 예약 확인',
     code: 'CONF #AGD-99381029',
-    memo: '📍 미팅 장소: 입국장 Column 10 (Seashells 피켓 기사 대기) / 셔틀 시간 15:30',
+    memo: '체크인 15:00 / 즈엉동 시내 인접 오션뷰',
     imgUrl: '',
-    rawEmail: 'Thank you for choosing Seashells Phu Quoc Hotel & Spa. Your airport transfer is confirmed on Dec 12. Meeting point at Column 10.'
+    rawEmail: ''
   },
   {
     id: 'd2',
@@ -74,7 +83,7 @@ export default function App() {
   ]);
 
   const [checklists, setChecklists] = useState(() => {
-    const saved = localStorage.getItem('my_personal_checklists_final');
+    const saved = localStorage.getItem('my_personal_checklists_v5');
     return saved ? JSON.parse(saved) : defaultChecklists;
   });
 
@@ -83,9 +92,7 @@ export default function App() {
   const [localTime, setLocalTime] = useState('');
   const [koreaTime, setKoreaTime] = useState('');
 
-  // 1동 ≒ 0.05원 (베트남동 ÷ 20 = 원화)
   const [vndInput, setVndInput] = useState('100000');
-
   const [naturalInput, setNaturalInput] = useState('');
   const [myCarLocation, setMyCarLocation] = useState('장기 P2 주차타워 2층 B구역');
   const [parkingSavedMsg, setParkingSavedMsg] = useState(false);
@@ -103,7 +110,7 @@ export default function App() {
   const [expVnd, setExpVnd] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('my_personal_checklists_final', JSON.stringify(checklists));
+    localStorage.setItem('my_personal_checklists_v5', JSON.stringify(checklists));
   }, [checklists]);
 
   useEffect(() => {
@@ -252,21 +259,21 @@ export default function App() {
 
     if (emailText) {
       if (!finalTitle) {
-        if (emailText.toLowerCase().includes('seashells')) finalTitle = '시쉘 푸꾸옥 호텔 & 셔틀 예약';
+        if (emailText.toLowerCase().includes('seashells') || emailText.toLowerCase().includes('shuttle')) finalTitle = '호텔 공항 샌딩 견적 회신';
         else if (emailText.toLowerCase().includes('la festa')) finalTitle = '라페스타 푸꾸옥 힐튼 바우처';
         else if (emailText.toLowerCase().includes('vietjet')) finalTitle = '비엣젯 항공 VJ977 탑승권';
         else finalTitle = '예약 확인 이메일 바우처';
       }
       const codeMatch = emailText.match(/(?:confirmation|reservation|booking|예약번호|확인번호)[:\s#]*([A-Z0-9-]+)/i);
       if (codeMatch && !finalCode) finalCode = `CONF #${codeMatch[1]}`;
-      if (!finalMemo) finalMemo = emailText.slice(0, 140) + (emailText.length > 140 ? '...' : '');
+      if (!finalMemo) finalMemo = emailText.slice(0, 160) + (emailText.length > 160 ? '...' : '');
     }
 
     const newDoc = {
       id: String(Date.now()),
       category: docCategory,
       title: finalTitle,
-      code: finalCode || '확인 완료',
+      code: finalCode || '견적/확인 완료',
       memo: finalMemo,
       imgUrl: docImgUrl,
       rawEmail: emailText
@@ -328,7 +335,7 @@ export default function App() {
   return (
     <div style={{ maxWidth: '460px', margin: '0 auto', minHeight: '100vh', backgroundColor: '#F8FAFC', fontFamily: 'sans-serif', borderLeft: '1px solid #E2E8F0', borderRight: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column' }}>
       
-      {/* 1. 상단 글로벌 브리핑 HUD */}
+      {/* 1. 상단 브리핑 HUD */}
       <header style={{ backgroundColor: '#0F172A', color: '#FFFFFF', padding: '16px 18px', borderBottom: '1px solid #334155' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#38BDF8', backgroundColor: 'rgba(56,189,248,0.15)', padding: '3px 8px', borderRadius: '6px' }}>
@@ -404,7 +411,7 @@ export default function App() {
         ))}
       </nav>
 
-      {/* 3. 탭별 컨텐츠 영역 */}
+      {/* 3. 탭별 메인 영역 */}
       <main style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
         
         {/* TAB 1: 일정표 */}
@@ -619,7 +626,7 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 4: 바우처/꿀팁 */}
+        {/* TAB 4: 바우처/꿀팁 (공식 견적 회신 카드 탑재) */}
         {activeTab === 'docs' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
@@ -688,8 +695,12 @@ export default function App() {
                   </div>
                   <div style={{ padding: '14px' }}>
                     <div style={{ fontWeight: 'bold', fontSize: '15px', color: '#1E293B' }}>{docItem.title}</div>
-                    {docItem.code && <div style={{ fontSize: '13px', color: '#2563EB', fontWeight: 'bold', marginTop: '4px' }}>🔑 {docItem.code}</div>}
-                    {docItem.memo && <div style={{ fontSize: '12px', color: '#475569', marginTop: '8px', lineHeight: '1.5', backgroundColor: '#F8FAFC', padding: '10px', borderRadius: '8px', borderLeft: '3px solid #2563EB' }}>{docItem.memo}</div>}
+                    {docItem.code && <div style={{ fontSize: '13px', color: '#2563EB', fontWeight: 'bold', marginTop: '4px' }}>📌 {docItem.code}</div>}
+                    {docItem.memo && (
+                      <div style={{ fontSize: '12px', color: '#334155', marginTop: '8px', lineHeight: '1.6', backgroundColor: '#F8FAFC', padding: '10px', borderRadius: '8px', borderLeft: '3px solid #2563EB', whiteSpace: 'pre-line' }}>
+                        {docItem.memo}
+                      </div>
+                    )}
 
                     {docItem.imgUrl && (
                       <div style={{ marginTop: '10px' }}>
@@ -717,14 +728,14 @@ export default function App() {
               <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', lineHeight: '1.6' }}>
                 <li><b>그랩(Grab) 이용:</b> 공항 호객 택시 탑승 금지, 반드시 그랩 앱으로 호출하세요.</li>
                 <li><b>수수료 무료 ATM:</b> 트래블로그 카드는 <b>VPBank, BIDV</b> ATM에서 인출 수수료가 0원입니다.</li>
-                <li><b>동(VND) 계산법:</b> 가격에서 <b>÷ 20</b> 하면 한국 원화 (예: 10만동 ÷ 20 = 5천원).</li>
+                <li><b>동(VND) 계산법:</b> 베트남 동에서 <b>÷ 20</b> 하면 한국 원화 (예: 10만동 ÷ 20 = 5천원).</li>
                 <li><b>야시장 쇼핑:</b> 땅콩이나 기념품 구매 시 여러 가게에서 시식 후 비교하고 흥정 가능합니다.</li>
               </ul>
             </div>
           </div>
         )}
 
-        {/* TAB 5: 예산/준비 (÷ 20 계산기) */}
+        {/* TAB 5: 예산/준비 */}
         {activeTab === 'tools' && (
           <div>
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '14px' }}>
