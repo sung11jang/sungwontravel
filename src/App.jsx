@@ -31,74 +31,66 @@ const tripDays = [
 ];
 
 const initialSchedules = [
-  // Day 1
-  { id: 's1', day: 'day1', time: '05:00', title: '인천공항 T1 도착 및 장기주차장 주차', type: 'CAR', location: '인천공항 제1여객터미널 장기주차장', memo: '주차 기둥 사진 촬영 / 셔틀 첫차 04:30 운행' },
-  { id: 's2', day: 'day1', time: '08:50', title: '푸꾸옥 국제공항(PQC) 도착 (VJ977)', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '국제선 출구 앞 기사 미팅 (Seashells 피켓)' },
-  { id: 's3', day: 'day1', time: '09:30', title: '시쉘 푸꾸옥 호텔 도착 및 얼리체크인/짐보관', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '귀국 셔틀(12/14) 체크인 시 사전 예약' },
-  { id: 's4', day: 'day1', time: '18:30', title: '즈엉동 야시장 저녁식사', type: 'RESTAURANT', location: 'Phu Quoc Night Market', memo: '해산물 바비큐 & 킹콩마트 쇼핑' },
+  // Day 1: 05:00 출국
+  { id: 's1', day: 'day1', time: '02:30', title: '인천공항 T1 도착 및 장기주차장 주차', type: 'CAR', location: '인천공항 제1여객터미널 장기주차장', memo: '심야 시간대 주차 후 터미널 이동 (셔틀 04:30 운행 시작)' },
+  { id: 's2', day: 'day1', time: '05:00', title: '비엣젯 VJ977 탑승 (인천 T1 ➔ 푸꾸옥)', type: 'FLIGHT', location: '인천국제공항 제1여객터미널 탑승동', memo: '05:00 출발 (위탁 수하물 20kg / 기내 7kg)' },
+  { id: 's3', day: 'day1', time: '08:50', title: '푸꾸옥 국제공항(PQC) 도착 및 입국수속', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '국제선 출구 앞 기사 미팅 (Seashells 피켓)' },
+  { id: 's4', day: 'day1', time: '09:40', title: '시쉘 푸꾸옥 호텔 도착 & 짐보관/얼리체크인', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '프런트에 체크아웃 셔틀(12/14) 사전 예약' },
+  { id: 's5', day: 'day1', time: '18:30', title: '즈엉동 야시장 저녁식사 & 킹콩마트', type: 'RESTAURANT', location: 'Phu Quoc Night Market', memo: '해산물 바비큐 & 현지 쇼핑' },
   
   // Day 2
-  { id: 's5', day: 'day2', time: '09:30', title: '혼똔섬 케이블카 & 아쿠아토피아 워터파크', type: 'PLACE', location: 'Hon Thom Cable Car Station', memo: '세계 최장 해상 케이블카' },
-  { id: 's6', day: 'day2', time: '18:00', title: '선셋타운 산책 & 키스 브릿지 노을 감상', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '일몰 뷰 감상' },
+  { id: 's6', day: 'day2', time: '09:30', title: '혼똔섬 케이블카 & 아쿠아토피아 워터파크', type: 'PLACE', location: 'Hon Thom Cable Car Station', memo: '세계 최장 해상 케이블카' },
+  { id: 's7', day: 'day2', time: '18:00', title: '선셋타운 산책 & 키스 브릿지 노을 감상', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '일몰 뷰 감상' },
 
   // Day 3
-  { id: 's7', day: 'day3', time: '11:30', title: '시쉘 체크아웃 ➔ 라페스타 푸꾸옥 힐튼 이동', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '인접 객실 배정 확인 및 체크인' },
-  { id: 's8', day: 'day3', time: '15:00', title: '사오비치 휴양 & 코코넛 스무디', type: 'PLACE', location: 'Sao Beach Phu Quoc', memo: '에메랄드빛 해변 휴식' },
+  { id: 's8', day: 'day3', time: '11:30', title: '시쉘 체크아웃 ➔ 라페스타 푸꾸옥 힐튼 이동', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '인접 객실 배정 확인 및 체크인' },
+  { id: 's9', day: 'day3', time: '15:00', title: '사오비치 휴양 & 코코넛 스무디', type: 'PLACE', location: 'Sao Beach Phu Quoc', memo: '에메랄드빛 해변 휴식' },
 
   // Day 4
-  { id: 's9', day: 'day4', time: '10:00', title: '리조트 수영장 휴식 & 선셋타운 카페', type: 'PLACE', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '호텔 부대시설 힐링' },
-  { id: 's10', day: 'day4', time: '19:00', title: '키스 오브 더 씨(Kiss of the Sea) 분수쇼', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '야간 불꽃놀이 & 멀티미디어 쇼' },
+  { id: 's10', day: 'day4', time: '10:00', title: '리조트 수영장 휴식 & 선셋타운 카페', type: 'PLACE', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '호텔 부대시설 힐링' },
+  { id: 's11', day: 'day4', time: '19:00', title: '키스 오브 더 씨(Kiss of the Sea) 분수쇼', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '야간 불꽃놀이 & 멀티미디어 쇼' },
 
-  // Day 5
-  { id: 's11', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 프런트 짐보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 짐 무료 보관 가능' },
-  { id: 's12', day: 'day5', time: '18:00', title: '공항 이동 (호텔 프런트 짐 찾기 ➔ 공항)', type: 'CAR', location: 'Phu Quoc International Airport', memo: '비행기 출발 2시간 30분 전 도착' },
-  { id: 's13', day: 'day5', time: '20:45', title: '비엣젯 VJ976 푸꾸옥(PQC) 출발 ➔ 인천행', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '20:45 출발' },
-  { id: 's14', day: 'day5', time: '04:00', title: '인천공항 T1 도착 및 장기주차장 출차', type: 'CAR', location: '인천국제공항 제1여객터미널 장기주차장', memo: '무인 정산기 사전 결제 후 출차' },
+  // Day 5: 20:45 귀국
+  { id: 's12', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 프런트 짐보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 짐 무료 보관 가능' },
+  { id: 's13', day: 'day5', time: '18:00', title: '공항 이동 (호텔 프런트 짐 찾기 ➔ 공항)', type: 'CAR', location: 'Phu Quoc International Airport', memo: '비행기 출발 2시간 45분 전 도착' },
+  { id: 's14', day: 'day5', time: '20:45', title: '비엣젯 VJ976 푸꾸옥(PQC) 출발 ➔ 인천행', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '20:45 출발 (위탁 수하물 20kg)' },
+  { id: 's15', day: 'day5', time: '04:00', title: '인천공항 T1 도착(12/17 목 04:00) & 출차', type: 'CAR', location: '인천국제공항 제1여객터미널 장기주차장', memo: '무인 정산기 사전 결제 후 출차' },
 ];
 
 const initialDocs = [
   {
-    id: 'd_seashells_pickup',
-    category: '호텔/셔틀',
-    title: '✅ 시쉘 푸꾸옥 무료 공항 픽업 셔틀 (확약 완료)',
-    code: 'VJ977 도착 / 5인 탑승',
-    memo: '📍 미팅 포인트: 국제선 입국장 앞 (호텔명 Seashells 피켓 기사 대기)\n📞 기사님 직통: +84 786 920 789 (WhatsApp 가능)\n💡 체크아웃 셔틀은 체크인할 때 프런트에서 사전 예약 필수',
+    id: 'd_flight_tickets',
+    category: '항공권',
+    title: '✈️ 비엣젯 항공 왕복 E-티켓 (5인 탑승)',
+    code: '예약번호 1400828892050635',
+    memo: '• 출국(VJ977): 12/12(토) 05:00 ICN T1 ➔ 08:50 PQC\n• 귀국(VJ976): 12/16(수) 20:45 PQC ➔ 12/17 04:00 ICN T1\n• 수하물 규정: 1인당 위탁 20kg (119x119x81cm) + 기내 7kg (56x36x23cm)',
     imgUrl: '',
-    rawEmail: 'Flight Number: VJ977 / Number of Guests: 5 / Meeting Point: In front of the international arrivals area / Driver Contact: +84 786 920 789'
+    rawEmail: ''
   },
   {
-    id: 'd_lafesta_info',
+    id: 'd_seashells_pickup',
     category: '호텔/셔틀',
-    title: '🏨 라페스타 푸꾸옥 힐튼 (룸/짐보관/샌딩 공식 안내)',
-    code: '체크아웃 12/16 (짐보관 가능)',
-    memo: '1️⃣ 인접 객실: 체크인 당일 현장 상황에 맞춰 최대한 우선 배정 노력\n2️⃣ 짐 보관: 12/16 체크아웃 후 당일 리셉션 프런트에 무료 보관 가능\n3️⃣ 공항 샌딩: 무료 셔틀 미제공 (16인승 밴 편도 1,360,800 VND 약 6.8만원 / 왕복 2,268,000 VND 약 11.3만원)\n📞 호텔 직통: +84 297 3525 555',
+    title: '✅ 시쉘 푸꾸옥 무료 공항 픽업 셔틀 (확약)',
+    code: 'VJ977 도착 (08:50) / 5인 탑승',
+    memo: '📍 미팅 포인트: 국제선 입국장 앞 (Seashells 피켓 기사 대기)\n📞 기사님 연락처: +84 786 920 789 (WhatsApp 가능)\n💡 체크아웃 셔틀(12/14)은 체크인 시 프런트에 예약 요청 필수',
     imgUrl: '',
-    rawEmail: 'You can keep the luggage at Reception after check-out. Complimentary shuttle not provided. 16-seat vehicle: One-way VND 1,360,800 / Round-trip VND 2,268,000. Tel: +84 297 3525 555'
+    rawEmail: ''
   },
   {
     id: 'd_seashells_room',
     category: '호텔/셔틀',
-    title: '시쉘 푸꾸옥 호텔 & 스파 (12/12 ~ 12/14)',
-    code: '룸1: Agoda #1764447810 (3인) / 룸2: Trip.com #1400828467787978 (2인)',
-    memo: '투숙객: 장성원, 정수아, 정진우, 명진, 정우택 (총 5명)',
+    title: '🏨 시쉘 푸꾸옥 호텔 & 스파 (12/12 ~ 12/14)',
+    code: '체크인 15:00 / 체크아웃 12:00',
+    memo: '• 룸1 (3인): Agoda #1764447810 (Twin Ocean View / 조식3인)\n• 룸2 (2인): Trip.com #1400828467787978 (King City View / 조식2인)\n📍 주소: 01 Võ Thị Sáu, Dương Đông / 📞 +84 297 7300 999',
     imgUrl: '',
     rawEmail: ''
   },
   {
-    id: 'd_lafesta_room',
+    id: 'd_lafesta_info',
     category: '호텔/셔틀',
-    title: '라페스타 푸꾸옥 힐튼 (12/14 ~ 12/16)',
-    code: '룸1: Agoda #1764537797 (3인) / 룸2: Trip.com #1400828468433911 (2인)',
-    memo: '선셋타운 중심 위치 / 야경 및 부대시설 이용',
-    imgUrl: '',
-    rawEmail: ''
-  },
-  {
-    id: 'd_flight_tickets',
-    category: '항공권',
-    title: '비엣젯 항공 왕복 E-티켓 (5인)',
-    code: '출국 VJ977 (12/12 08:50 PQC 도착) ➔ 귀국 VJ976 (12/16 20:45 PQC 출발)',
-    memo: '인천공항 제1여객터미널 탑승 / 수하물 규정 확인',
+    title: '🏨 라페스타 푸꾸옥 힐튼 (12/14 ~ 12/16)',
+    code: '체크인 15:00 / 체크아웃 12:00 (짐보관 가능)',
+    memo: '• 룸1 (3인): Agoda #1764537797 (King Capri Terrace / 조식3인)\n• 룸2 (2인): Trip.com #1400828468433911 (King Classico / 조식2인)\n• 짐 보관: 12/16 체크아웃 후 당일 리셉션 프런트 무료 보관 가능\n• 샌딩: 무료 셔틀 없음 (16인승 밴 편도 136만동 약 6.8만원) / 📞 +84 297 3525 555',
     imgUrl: '',
     rawEmail: ''
   }
@@ -111,12 +103,12 @@ export default function App() {
   const [items, setItems] = useState(initialSchedules);
   const [docs, setDocs] = useState(initialDocs);
   const [expenses, setExpenses] = useState([
-    { id: 'e1', title: '인천공항 5일 장기주차비', vnd: 900000, krw: 45000 },
-    { id: 'e2', title: '야시장 해산물 저녁 식사', vnd: 700000, krw: 35000 },
+    { id: 'e1', title: '비엣젯 항공권 (5인 왕복 총액)', vnd: 59070000, krw: 2953500 },
+    { id: 'e2', title: '인천공항 5일 장기주차비 (예상)', vnd: 900000, krw: 45000 },
   ]);
 
   const [checklists, setChecklists] = useState(() => {
-    const saved = localStorage.getItem('my_personal_checklists_v6');
+    const saved = localStorage.getItem('my_personal_checklists_v7');
     return saved ? JSON.parse(saved) : defaultChecklists;
   });
 
@@ -143,7 +135,7 @@ export default function App() {
   const [expVnd, setExpVnd] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('my_personal_checklists_v6', JSON.stringify(checklists));
+    localStorage.setItem('my_personal_checklists_v7', JSON.stringify(checklists));
   }, [checklists]);
 
   useEffect(() => {
@@ -446,7 +438,7 @@ export default function App() {
       {/* 3. 탭별 메인 영역 */}
       <main style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
         
-        {/* TAB 1: 일정표 (12/12 ~ 12/16 완벽 반영) */}
+        {/* TAB 1: 일정표 (12/12 05:00 출발 ~ 12/16 20:45 귀국 반영) */}
         {activeTab === 'schedule' && (
           <div>
             <div style={{ display: 'flex', gap: '6px', marginBottom: '14px', overflowX: 'auto', paddingBottom: '4px' }}>
@@ -634,9 +626,9 @@ export default function App() {
               </div>
               
               <div style={{ marginTop: '10px', backgroundColor: '#FEF2F2', padding: '10px 12px', borderRadius: '8px', fontSize: '11px', color: '#991B1B', lineHeight: '1.5' }}>
-                <b>🚨 심야/새벽(00:00 ~ 04:30) 운행 중단 안내:</b><br />
-                • 자정(24:00)부터 새벽 04:30까지는 셔틀버스가 다니지 않습니다.<br />
-                • 이 시간대에는 <b>도보 이동(약 10~15분)</b> 또는 <b>터미널과 가까운 P1/P2 주차타워</b>에 주차하시는 것을 추천합니다.
+                <b>🚨 12/12 출국 시 심야 시간대(02:30 도착) 안내:</b><br />
+                • 05:00 비행기 탑승을 위해 새벽 02:30~03:00 공항 도착 시 셔틀버스가 다니지 않습니다 (04:30 첫차).<br />
+                • <b>여객터미널 도보 이동이 용이한 P1/P2 주차타워</b> 구역에 주차하시는 것을 적극 추천합니다.
               </div>
             </div>
 
@@ -658,13 +650,11 @@ export default function App() {
           </div>
         )}
 
-        {/* TAB 4: 바우처/꿀팁 (실제 이메일 회신 데이터 완벽 반영) */}
+        {/* TAB 4: 바우처/꿀팁 (보안 정제 완료 바우처 4종) */}
         {activeTab === 'docs' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            
-            {/* 보관함 목록 (시쉘 & 라페스타 힐튼 회신 탑재) */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>📋 내 보관함 & 호텔 회신 바우처</div>
+              <div style={{ fontSize: '13px', fontWeight: 'bold', color: '#1E293B' }}>📋 내 보관함 & 호텔/항공 바우처</div>
               {docs.map((docItem) => (
                 <div key={docItem.id} style={{ backgroundColor: '#FFFFFF', borderRadius: '16px', border: '1px solid #E2E8F0', overflow: 'hidden', boxShadow: '0 2px 4px rgba(0,0,0,0.04)' }}>
                   <div style={{ backgroundColor: docItem.category === '항공권' ? '#1E3A8A' : '#1E293B', color: '#FFF', padding: '10px 14px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -751,14 +741,13 @@ export default function App() {
               </button>
             </div>
 
-            {/* 현지 실전 꿀팁 */}
             <div style={{ backgroundColor: '#FFFBEB', padding: '16px', borderRadius: '16px', border: '1px solid #FEF3C7', color: '#92400E' }}>
               <div style={{ fontWeight: 'bold', fontSize: '13px', marginBottom: '8px' }}>💡 푸꾸옥 여행 현지 실전 꿀팁</div>
               <ul style={{ margin: 0, paddingLeft: '18px', fontSize: '12px', lineHeight: '1.6' }}>
                 <li><b>그랩(Grab) 이용:</b> 공항 호객 택시 탑승 금지, 반드시 그랩 앱으로 호출하세요.</li>
                 <li><b>수수료 무료 ATM:</b> 트래블로그 카드는 <b>VPBank, BIDV</b> ATM에서 인출 수수료가 0원입니다.</li>
                 <li><b>동(VND) 계산법:</b> 베트남 동에서 <b>÷ 20</b> 하면 한국 원화 (예: 10만동 ÷ 20 = 5천원).</li>
-                <li><b>시쉘 기사 미팅:</b> 비행기 착륙 후 WhatsApp으로 기사님(+84 786 920 789)께 메시지를 보내면 더욱 빠릅니다.</li>
+                <li><b>시쉘 기사 미팅:</b> 비행기 착륙 후 WhatsApp으로 기사님(+84 786 920 789)께 연락하면 가장 빠릅니다.</li>
               </ul>
             </div>
           </div>
