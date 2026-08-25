@@ -43,11 +43,11 @@ const tripDays = [
 const initialSchedules = [
   // Day 1
   { id: 's1', day: 'day1', time: '02:30', title: '인천공항 T1 도착 및 장기주차', type: 'CAR', location: '인천공항 제1여객터미널 장기주차장', memo: 'P1/P2 주차타워 주차 후 터미널 이동' },
-  { id: 's2', day: 'day1', time: '05:00', title: '비엣젯 VJ977 항공기 탑승 출발', type: 'FLIGHT', location: '인천국제공항 제1여객터미널', memo: '05:00 출발 (1인당 위탁수하물 20kg 포함)'[cite: 2]},
+  { id: 's2', day: 'day1', time: '05:00', title: '비엣젯 VJ977 항공기 탑승 출발', type: 'FLIGHT', location: '인천국제공항 제1여객터미널', memo: '05:00 출발 (1인당 위탁수하물 20kg 포함)' },
   { id: 's3', day: 'day1', time: '08:50', title: '푸꾸옥 공항 도착 및 입국 수속', type: 'CAR', location: 'Phu Quoc International Airport', memo: '출구 앞 시쉘 피켓 기사님 미팅 (+84 786 920 789)' },
   { id: 's4', day: 'day1', time: '10:00', title: '모닝 마사지 & 짐 보관', type: 'HOTEL', location: '푸꾸옥 시내 마사지샵', memo: '마사지로 피로 풀고 짐 맡긴 후 사파리 출발' },
   { id: 's5', day: 'day1', time: '11:30', title: '북부 빈펄 사파리(Safari) 관람', type: 'PLACE', location: 'Vinpearl Safari Phu Quoc', memo: '사파리 투어 버스 탑승 & 기린 식당' },
-  { id: 's6', day: 'day1', time: '15:30', title: '시쉘 푸꾸옥 호텔 체크인', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '체크인 15:00 (12/14 체크아웃 셔틀 사전예약)'[cite: 3, 4]},
+  { id: 's6', day: 'day1', time: '15:30', title: '시쉘 푸꾸옥 호텔 체크인', type: 'HOTEL', location: 'Seashells Phu Quoc Hotel & Spa', memo: '체크인 15:00 (12/14 체크아웃 셔틀 사전예약)' },
   { id: 's7', day: 'day1', time: '18:30', title: '저녁식사: 베트남 가정식 [메오키친]', type: 'RESTAURANT', location: 'Meo Kitchen Phu Quoc', memo: '쌀국수, 반쎄오, 분짜 추천 맛집' },
   { id: 's8', day: 'day1', time: '20:00', title: '즈엉동 야시장 산책 & 킹콩마트', type: 'PLACE', location: 'Phu Quoc Night Market', memo: '호텔에서 도보 이동 가능 (열대과일 & 쇼핑)' },
 
@@ -59,7 +59,7 @@ const initialSchedules = [
   // Day 3
   { id: 's12', day: 'day3', time: '11:00', title: '시쉘 체크아웃 ➔ 라페스타 힐튼 이동', type: 'CAR', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '그랩 7인승 대형 호출 (약 35분 소요)' },
   { id: 's13', day: 'day3', time: '14:30', title: '남부 사오비치(Sao Beach) 해변 휴식', type: 'PLACE', location: 'Sao Beach Phu Quoc', memo: '새하얀 모래사장 & 시원한 코코넛 음료' },
-  { id: 's14', day: 'day3', time: '18:30', title: '저녁식사: 남부 맛집 [하이봇] 스테이크', type: 'RESTAURANT', location: 'Hibot Restaurant Sunset Town', memo: '⚠️ 3개 매장 중 스테이크 판매 지점 방문!' },
+  { id: 's14', day: 'day3', time: '18:30', title: '저녁식사: 남부 맛집 [하이봇] 스테이크', type: 'RESTAURANT', location: 'Hibot Restaurant Sunset Town', memo: '3개 매장 중 스테이크 판매 지점 방문!' },
 
   // Day 4
   { id: 's15', day: 'day4', time: '09:30', title: '남부 혼똔섬 해상 케이블카 & 워터파크', type: 'PLACE', location: 'Hon Thom Cable Car Station', memo: '세계 최장 바다 케이블카 탑승' },
@@ -67,10 +67,10 @@ const initialSchedules = [
   { id: 's17', day: 'day4', time: '19:30', title: '키스 오브 더 씨 야간 불꽃 분수쇼', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '남부 필수 야간 멀티미디어 불꽃쇼' },
 
   // Day 5
-  { id: 's18', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 짐 보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 호텔 프런트 무료 짐보관'[cite: 9]},
+  { id: 's18', day: 'day5', time: '12:00', title: '라페스타 힐튼 체크아웃 & 짐 보관', type: 'HOTEL', location: 'La Festa Phu Quoc, Curio Collection by Hilton', memo: '체크아웃 후 호텔 프런트 무료 짐보관' },
   { id: 's19', day: 'day5', time: '14:00', title: '선셋타운 카페 휴식 & 기념품 쇼핑', type: 'PLACE', location: 'Sunset Town Phu Quoc', memo: '마지막 남부 힐링 티타임' },
   { id: 's20', day: 'day5', time: '18:00', title: '공항 이동 (호텔 밴 또는 그랩 7인승)', type: 'CAR', location: 'Phu Quoc International Airport', memo: '공항 도착 후 출국 수속 (출발 2시간 45분 전)' },
-  { id: 's21', day: 'day5', time: '20:45', title: '비엣젯 VJ976 항공기 탑승 푸꾸옥 출발', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '20:45 출발 ➔ 12/17(목) 04:00 인천 T1 도착'[cite: 2]},
+  { id: 's21', day: 'day5', time: '20:45', title: '비엣젯 VJ976 항공기 탑승 푸꾸옥 출발', type: 'FLIGHT', location: 'Phu Quoc International Airport', memo: '20:45 출발 ➔ 12/17(목) 04:00 인천 T1 도착' },
   { id: 's22', day: 'day5', time: '04:00', title: '인천공항 T1 도착 및 귀가', type: 'CAR', location: '인천국제공항 제1여객터미널 장기주차장', memo: '주차 요금 정산 후 안전 귀가' },
 ];
 
@@ -88,8 +88,8 @@ const initialDocs = [
     id: 'd_flight_tickets',
     category: '항공권',
     title: '✈️ 비엣젯 항공 왕복 E-티켓 (5인)',
-    code: '예약번호 1400828892050635'[cite: 1, 2],
-    memo: '• 출국(VJ977): 12/12(토) 05:00 인천 T1 ➔ 08:50 푸꾸옥\n• 귀국(VJ976): 12/16(수) 20:45 푸꾸옥 ➔ 12/17 04:00 인천 T1\n• 수하물: 1인당 위탁 20kg + 기내 7kg'[cite: 2],
+    code: '예약번호 1400828892050635',
+    memo: '• 출국(VJ977): 12/12(토) 05:00 인천 T1 ➔ 08:50 푸꾸옥\n• 귀국(VJ976): 12/16(수) 20:45 푸꾸옥 ➔ 12/17 04:00 인천 T1\n• 수하물: 1인당 위탁 20kg + 기내 7kg',
     imgUrl: '',
     rawEmail: ''
   },
@@ -97,8 +97,8 @@ const initialDocs = [
     id: 'd_seashells_room',
     category: '호텔',
     title: '🏨 중부: 시쉘 푸꾸옥 호텔 & 스파 (12/12~12/14)',
-    code: '체크인 15:00 / 야시장 도보권'[cite: 3, 4],
-    memo: '• 룸1 (3인): Agoda #1764447810 (Twin Ocean View / 조식 3인)\n• 룸2 (2인): Trip.com #1400828467787978 (King City View / 조식 2인)\n• 호텔 전화: +84 297 7300 999'[cite: 3, 4, 6],
+    code: '체크인 15:00 / 야시장 도보권',
+    memo: '• 룸1 (3인): Agoda #1764447810 (Twin Ocean View / 조식 3인)\n• 룸2 (2인): Trip.com #1400828467787978 (King City View / 조식 2인)\n• 호텔 전화: +84 297 7300 999',
     imgUrl: '',
     rawEmail: ''
   },
@@ -106,8 +106,8 @@ const initialDocs = [
     id: 'd_lafesta_info',
     category: '호텔',
     title: '🏨 남부: 라페스타 푸꾸옥 힐튼 (12/14~12/16)',
-    code: '체크인 15:00 / 선셋타운 위치'[cite: 9, 10],
-    memo: '• 룸1 (3인): Agoda #1764537797 (King Capri Terrace / 조식 3인)\n• 룸2 (2인): Trip.com #1400828468433911 (King Classico / 조식 2인)\n• 체크아웃 후 당일 무료 짐보관 가능 / 전화: +84 297 3525 555'[cite: 7, 9, 10],
+    code: '체크인 15:00 / 선셋타운 위치',
+    memo: '• 룸1 (3인): Agoda #1764537797 (King Capri Terrace / 조식 3인)\n• 룸2 (2인): Trip.com #1400828468433911 (King Classico / 조식 2인)\n• 체크아웃 후 당일 무료 짐보관 가능 / 전화: +84 297 3525 555',
     imgUrl: '',
     rawEmail: ''
   }
@@ -127,7 +127,7 @@ export default function App() {
   ]);
 
   const [checklists, setChecklists] = useState(() => {
-    const saved = localStorage.getItem('my_personal_checklists_v15');
+    const saved = localStorage.getItem('my_personal_checklists_v16');
     return saved ? JSON.parse(saved) : defaultChecklists;
   });
 
@@ -155,7 +155,7 @@ export default function App() {
   const [expVnd, setExpVnd] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('my_personal_checklists_v15', JSON.stringify(checklists));
+    localStorage.setItem('my_personal_checklists_v16', JSON.stringify(checklists));
   }, [checklists]);
 
   useEffect(() => {
@@ -359,7 +359,7 @@ export default function App() {
   return (
     <div style={{ maxWidth: '480px', margin: '0 auto', minHeight: '100vh', backgroundColor: '#F8FAFC', fontFamily: 'system-ui, -apple-system, sans-serif', borderLeft: '1px solid #E2E8F0', borderRight: '1px solid #E2E8F0', display: 'flex', flexDirection: 'column' }}>
       
-      {/* 1. 상단 브리핑 HUD (크로스체크 제거 & 꿀팁 버튼 탑재) */}
+      {/* 1. 상단 브리핑 HUD */}
       <header style={{ backgroundColor: '#0F172A', color: '#FFFFFF', padding: '16px 18px', borderBottom: '1px solid #334155' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#38BDF8', backgroundColor: 'rgba(56,189,248,0.18)', padding: '4px 10px', borderRadius: '8px' }}>
@@ -373,7 +373,7 @@ export default function App() {
           </button>
         </div>
 
-        {/* 듀얼 시계 (글씨 크기 확대) */}
+        {/* 듀얼 시계 */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginTop: '12px', backgroundColor: '#1E293B', padding: '12px 14px', borderRadius: '12px' }}>
           <div>
             <div style={{ fontSize: '13px', color: '#94A3B8' }}>베트남 푸꾸옥 시간</div>
@@ -434,10 +434,9 @@ export default function App() {
       {/* 3. 메인 콘텐츠 영역 */}
       <main style={{ flex: 1, padding: '16px', overflowY: 'auto' }}>
         
-        {/* TAB 1: 타임테이블 순서 일정표 (가시성 대폭 강화) */}
+        {/* TAB 1: 타임테이블 순서 일정표 */}
         {activeTab === 'schedule' && (
           <div>
-            {/* 날짜 선택 버튼 (크고 보기 쉽게) */}
             <div style={{ display: 'flex', gap: '8px', marginBottom: '16px', overflowX: 'auto', paddingBottom: '4px' }}>
               {tripDays.map((d) => (
                 <button
@@ -465,7 +464,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* AI 스마트 일정 등록창 */}
+            {/* AI 스마트 등록 */}
             <form onSubmit={handleSmartAddSchedule} style={{ backgroundColor: '#FFFFFF', padding: '14px 16px', borderRadius: '16px', border: '1px solid #E2E8F0', marginBottom: '18px', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
                 <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1E293B' }}>✨ 일정 편하게 추가하기</span>
@@ -488,18 +487,15 @@ export default function App() {
               </div>
             </form>
 
-            {/* 타임라인(Timeline) 디자인 순차 나열 */}
+            {/* 타임라인 디자인 */}
             <div style={{ position: 'relative', paddingLeft: '8px' }}>
-              {/* 세로 연결 라인 */}
               <div style={{ position: 'absolute', left: '38px', top: '20px', bottom: '20px', width: '3px', backgroundColor: '#E2E8F0', zIndex: 1 }} />
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', position: 'relative', zIndex: 2 }}>
-                {currentDaySchedules.map((item, idx) => {
+                {currentDaySchedules.map((item) => {
                   const badge = getTypeBadge(item.type);
                   return (
                     <div key={item.id} style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                      
-                      {/* 타임스탬프 원형 뱃지 */}
                       <div style={{ width: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
                         <div style={{ backgroundColor: '#1E293B', color: '#FFFFFF', padding: '4px 6px', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', textAlign: 'center', width: '100%', boxSizing: 'border-box' }}>
                           {item.time}
@@ -509,7 +505,6 @@ export default function App() {
                         </div>
                       </div>
 
-                      {/* 일정 상세 카드 (글자 크기 확대) */}
                       <div style={{ flex: 1, backgroundColor: '#FFFFFF', padding: '14px 16px', borderRadius: '16px', border: '1px solid #E2E8F0', boxShadow: '0 2px 5px rgba(0,0,0,0.04)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                           <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#0F172A', lineHeight: '1.4' }}>
@@ -550,15 +545,12 @@ export default function App() {
               <div style={{ fontSize: '18px', fontWeight: 'bold', marginTop: '4px' }}>푸꾸옥 북부 ➔ 중부 ➔ 남부 권역별 이동 동선도</div>
             </div>
 
-            {/* 권역별 다이어그램 (글씨 확대) */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B', marginBottom: '14px', textAlign: 'center' }}>
                 🧭 푸꾸옥 핵심 권역 한눈에 보기
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                
-                {/* 1. 북부 */}
                 <div style={{ backgroundColor: '#ECFDF5', border: '2px solid #10B981', borderRadius: '14px', padding: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <b style={{ color: '#065F46', fontSize: '15px' }}>🌲 [북부] 사파리 & 테마파크</b>
@@ -573,7 +565,6 @@ export default function App() {
                   ⬇️ (그랩 택시 약 45분 / 빈버스 무료셔틀) ⬇️
                 </div>
 
-                {/* 2. 중부 */}
                 <div style={{ backgroundColor: '#EFF6FF', border: '2px solid #2563EB', borderRadius: '14px', padding: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <b style={{ color: '#1E40AF', fontSize: '15px' }}>🏙️ [중부] 시내 & 숙소 (씨쉘 리조트)</b>
@@ -588,7 +579,6 @@ export default function App() {
                   ⬇️ (그랩 7인승 대형 택시 약 35분) ⬇️
                 </div>
 
-                {/* 3. 남부 */}
                 <div style={{ backgroundColor: '#FFF7ED', border: '2px solid #F97316', borderRadius: '14px', padding: '14px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <b style={{ color: '#9A3412', fontSize: '15px' }}>🌊 [남부] 볼거리 중심 & 숙소 (라페스타 힐튼)</b>
@@ -601,7 +591,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* 이동 시간 요약 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B', marginBottom: '10px' }}>
                 ⏱️ 권역별 이동 소요 시간 & 추천 교통편
@@ -628,7 +617,6 @@ export default function App() {
         {activeTab === 'docs' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
-            {/* 인천공항 T1 주차 메모 및 셔틀 카드 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0', boxShadow: '0 2px 4px rgba(0,0,0,0.04)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B' }}>🚗 인천공항 T1 장기주차 (준중형 SUV)</span>
@@ -657,7 +645,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* 예약 바우처 목록 (글씨 확대) */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B' }}>📋 내 보관함 & 호텔/항공 바우처</div>
               {docs.map((docItem) => (
@@ -698,7 +685,6 @@ export default function App() {
               ))}
             </div>
 
-            {/* 신규 바우처 등록 폼 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B', marginBottom: '8px' }}>
                 ➕ 새 바우처 / 티켓 사진 등록
@@ -752,7 +738,6 @@ export default function App() {
         {activeTab === 'tools' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             
-            {/* 정밀 실시간 환율 계산기 (글씨 확대) */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B' }}>💱 실시간 환율 계산기</span>
@@ -796,7 +781,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* 여행 가계부 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
                 <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B' }}>💰 여행 누적 지출</span>
@@ -834,7 +818,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* 해외여행 준비물 체크리스트 */}
             <div style={{ backgroundColor: '#FFFFFF', padding: '16px', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <span style={{ fontSize: '15px', fontWeight: 'bold', color: '#1E293B' }}>🎒 해외여행 종합 준비물 체크</span>
@@ -846,7 +829,6 @@ export default function App() {
                 🔒 본인 기기에만 개별 저장되므로 자유롭게 체크하세요.
               </div>
 
-              {/* 카테고리 필터 */}
               <div style={{ display: 'flex', gap: '6px', overflowX: 'auto', paddingBottom: '8px', marginBottom: '10px' }}>
                 {checklistCategories.map((cat) => (
                   <button
@@ -870,7 +852,6 @@ export default function App() {
                 ))}
               </div>
 
-              {/* 준비물 추가 */}
               <form onSubmit={handleAddChecklist} style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
                 <select
                   value={newCheckCat}
@@ -897,7 +878,6 @@ export default function App() {
                 </button>
               </form>
 
-              {/* 리스트 */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxHeight: '340px', overflowY: 'auto' }}>
                 {filteredChecklists.map((chk) => (
                   <div
