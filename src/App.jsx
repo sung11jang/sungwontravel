@@ -8,7 +8,7 @@ import {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('timeline');
-  const [theme, setTheme] = useState('dark'); // 'dark' | 'airbnb' | 'booking' | 'tripadvisor'
+  const [theme, setTheme] = useState('dark'); // 'dark' | 'coral' | 'ocean' | 'forest'
   const [showTipModal, setShowTipModal] = useState(false);
 
   // 1. Dual Clock State
@@ -181,12 +181,11 @@ export default function App() {
     }
   ];
 
-  // Global Top 10 Travel Apps Inspired Theme Definitions
+  // Color-Themed Style Definitions
   const styles = useMemo(() => {
-    // 1. Airbnb Coral (에어비앤비 스타일: 따뜻한 웜화이트 + 라우샨 코랄 핑크 + 부드러운 플로팅 섀도우)
-    if (theme === 'airbnb') {
+    // 1. Coral Mode (웜화이트 + 산호 코랄 핑크)
+    if (theme === 'coral') {
       return {
-        name: '에어비앤비',
         bg: 'bg-[#F7F7F7] text-[#222222]',
         header: 'bg-white/95 border-b border-[#EBEBEB] text-[#222222]',
         card: 'bg-white border border-[#DDDDDD] shadow-md shadow-neutral-200/50 text-[#222222] rounded-3xl',
@@ -201,10 +200,9 @@ export default function App() {
         input: 'bg-white border-[#B0B0B0] text-[#222222] focus:border-[#FF385C] focus:ring-1 focus:ring-[#FF385C]'
       };
     }
-    // 2. Booking.com Blue (부킹닷컴 스타일: 신뢰의 딥 네이비 블루 + 골드 옐로우 하이라이트 + 높은 명도대비)
-    if (theme === 'booking') {
+    // 2. Ocean Mode (딥 네이비 블루 + 앰버 옐로우 포인트)
+    if (theme === 'ocean') {
       return {
-        name: '부킹닷컴',
         bg: 'bg-[#F2F6FA] text-[#1A1A1A]',
         header: 'bg-[#003580] border-b border-[#00224F] text-white',
         card: 'bg-white border border-[#CEE3F8] shadow-md text-[#1A1A1A] rounded-2xl',
@@ -219,10 +217,9 @@ export default function App() {
         input: 'bg-white border-[#90BCEB] text-[#1A1A1A] focus:border-[#006CE4]'
       };
     }
-    // 3. TripAdvisor Forest (트립어드바이저 스타일: 산뜻한 트립 그린 + 웜 크림 베이스 + 가독성 극대화)
-    if (theme === 'tripadvisor') {
+    // 3. Forest Mode (소프트 에메랄드 그린 + 웜 크림 베이스)
+    if (theme === 'forest') {
       return {
-        name: '트립어드바이저',
         bg: 'bg-[#FAF1ED]/60 text-[#002B11]',
         header: 'bg-white/95 border-b border-[#00AA6C]/30 text-[#002B11]',
         card: 'bg-white border border-[#E0E0E0] shadow-sm text-[#002B11] rounded-2xl',
@@ -237,9 +234,8 @@ export default function App() {
         input: 'bg-white border-slate-300 text-[#002B11] focus:border-[#00AA6C]'
       };
     }
-    // 4. Default: Classic Dark Mode (원래 기존 시그니처 다크)
+    // 4. Default: Dark Mode
     return {
-      name: '기본 다크',
       bg: 'bg-slate-900 text-slate-100',
       header: 'bg-slate-900/95 border-b border-slate-800 text-slate-100',
       card: 'bg-slate-800/90 border border-slate-700 shadow-lg text-slate-100 rounded-2xl',
@@ -263,18 +259,18 @@ export default function App() {
           <div className="flex items-center space-x-2.5">
             <span className="text-2xl">🌴</span>
             <div>
-              <h1 className={`text-lg sm:text-xl font-extrabold ${theme === 'booking' ? 'text-white' : styles.accentText} leading-tight`}>
+              <h1 className={`text-lg sm:text-xl font-extrabold ${theme === 'ocean' ? 'text-white' : styles.accentText} leading-tight`}>
                 푸꾸옥 가족여행 4박5일
               </h1>
-              <p className={`text-xs sm:text-sm font-semibold ${theme === 'booking' ? 'text-blue-200' : styles.subText}`}>
+              <p className={`text-xs sm:text-sm font-semibold ${theme === 'ocean' ? 'text-blue-200' : styles.subText}`}>
                 12/12(금) ~ 12/16(화) • 성원 가족
               </p>
             </div>
           </div>
 
-          {/* Theme Selector (Top 10 Global Travel Apps Style) */}
+          {/* Color-based Theme Selector */}
           <div className="flex items-center space-x-2">
-            <div className={`flex items-center p-1 rounded-2xl border ${theme === 'booking' ? 'bg-blue-900/60 border-blue-400' : 'bg-black/5 border-slate-300 dark:border-slate-700'}`}>
+            <div className={`flex items-center p-1 rounded-2xl border ${theme === 'ocean' ? 'bg-blue-900/60 border-blue-400' : 'bg-black/5 border-slate-300 dark:border-slate-700'}`}>
               <Palette className="w-4 h-4 mr-1 text-amber-400 shrink-0 ml-1" />
               <button
                 onClick={() => setTheme('dark')}
@@ -283,22 +279,22 @@ export default function App() {
                 다크
               </button>
               <button
-                onClick={() => setTheme('airbnb')}
-                className={`px-2 py-1 rounded-xl text-xs font-bold transition-all ${theme === 'airbnb' ? 'bg-[#FF385C] text-white shadow' : 'opacity-70 hover:opacity-100'}`}
+                onClick={() => setTheme('coral')}
+                className={`px-2 py-1 rounded-xl text-xs font-bold transition-all ${theme === 'coral' ? 'bg-[#FF385C] text-white shadow' : 'opacity-70 hover:opacity-100'}`}
               >
-                에어비앤비
+                코랄
               </button>
               <button
-                onClick={() => setTheme('booking')}
-                className={`px-2 py-1 rounded-xl text-xs font-bold transition-all ${theme === 'booking' ? 'bg-[#FEBB02] text-[#003580] shadow font-black' : 'opacity-70 hover:opacity-100'}`}
+                onClick={() => setTheme('ocean')}
+                className={`px-2 py-1 rounded-xl text-xs font-bold transition-all ${theme === 'ocean' ? 'bg-[#FEBB02] text-[#003580] shadow font-black' : 'opacity-70 hover:opacity-100'}`}
               >
-                부킹닷컴
+                오션
               </button>
               <button
-                onClick={() => setTheme('tripadvisor')}
-                className={`px-2 py-1 rounded-xl text-xs font-bold transition-all ${theme === 'tripadvisor' ? 'bg-[#00AA6C] text-white shadow' : 'opacity-70 hover:opacity-100'}`}
+                onClick={() => setTheme('forest')}
+                className={`px-2 py-1 rounded-xl text-xs font-bold transition-all ${theme === 'forest' ? 'bg-[#00AA6C] text-white shadow' : 'opacity-70 hover:opacity-100'}`}
               >
-                트립어드바이저
+                포레스트
               </button>
             </div>
 
